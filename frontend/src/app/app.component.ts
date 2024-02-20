@@ -7,8 +7,24 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'AppliTrax';
+
+  routes: string[] = [];
+
+  constructor() {}
+
+  ngOnInit() {
+    this.routes = [
+      '/',
+      'auth/login',
+      'auth/register',
+      'overview',
+      'application',
+      'jobboards',
+      'trending',
+    ];
+  }
 }
