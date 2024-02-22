@@ -1,4 +1,7 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { OverviewComponent } from './pages/overview/overview.component';
@@ -7,7 +10,7 @@ import { JobBoardComponent } from './pages/job-board/job-board.component';
 import { TrendingComponent } from './pages/trending/trending.component';
 import { HomeComponent } from './pages/home/home.component';
 
-export const routes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
@@ -43,3 +46,10 @@ export const routes: Routes = [
     title: 'Trending Applications',
   },
 ];
+
+@NgModule({
+  declarations: [],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
