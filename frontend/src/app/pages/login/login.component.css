@@ -1,0 +1,95 @@
+main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.div-auth-form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#h1-auth {
+    margin-bottom: 0px;
+}
+
+#h1-auth,
+#p-auth {
+    text-align: center;
+}
+
+.form-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid black;
+    border-radius: 30px;
+    padding: 2rem;
+    width: 35%;
+    min-width: 325px;
+    box-shadow: 0px 0px 20px #b3b3b3;
+    background-color: white;
+}
+
+.div-auth-inputs-wrapper>[formcontrolname="password"],
+.div-auth-inputs-wrapper>.p-inputtext {
+    margin: 0.5rem 0rem 0.5rem 0rem;
+}
+
+.div-auth-inputs-wrapper {
+    margin: 0.5rem 0rem 1rem 0rem;
+}
+
+.div-auth-inputs-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.div-auth-inputs-wrapper>[formcontrolname="password"]>.p-password,
+.div-auth-inputs-wrapper>[formcontrolname="password"]>.p-password>.p-inputtext {
+    width: 100%;
+}
+
+#input-auth-forms,
+.div-auth-misc-wrapper,
+#btn-auth-cont,
+.btn-auth-group-wrapper {
+    width: 90%;
+}
+
+.div-auth-misc-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+}
+
+#btn-auth-cont {
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-auth-group-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-auth-group-wrapper>#btn-auth-google,
+.btn-auth-group-wrapper>#btn-auth-github {
+    flex: 1;
+}
+
+.btn-auth-group-wrapper>#btn-auth-google {
+    margin-right: 10px;
+}
+
+.btn-auth-group-wrapper>#btn-auth-github {
+    margin-left: 10px;
+}
+
+.hide {
+    display: none;
+}
