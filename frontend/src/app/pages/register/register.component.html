@@ -6,6 +6,10 @@
 
         <form class="form-auth" [formGroup]="formGroup">
 
+            <div>
+                {{authServiceErr()}}
+            </div>
+
             <div id="input-auth-forms" class="div-auth-inputs-wrapper">
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="email">Email</label>
@@ -18,14 +22,17 @@
                     <label id="label-auth-inputs" for="password">Password</label>
                     <p-password data-testid="input-password" [class]="passwordClassName" formControlName="password"
                         [toggleMask]="true" [feedback]="false" placeholder="Password" />
-                    <small [class]="passwordSmallClassName" id="email-help">{{passwordSmallText}}<Address></Address></small>
+                    <small [class]="passwordSmallClassName" id="email-help">{{passwordSmallText}}<Address></Address>
+                        </small>
                 </div>
 
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="confirmPassword">Confirm Password</label>
-                    <p-password data-testid="input-password" [class]="passwordClassName" formControlName="confirmPassword"
-                        [toggleMask]="true" [feedback]="false" placeholder="Confirm Password" />
-                    <small [class]="passwordSmallClassName" id="email-help">{{passwordSmallText}}<Address></Address></small>
+                    <p-password data-testid="input-password" [class]="passwordClassName"
+                        formControlName="confirmPassword" [toggleMask]="true" [feedback]="false"
+                        placeholder="Confirm Password" />
+                    <small [class]="passwordSmallClassName" id="email-help">{{passwordSmallText}}<Address></Address>
+                        </small>
                 </div>
             </div>
 
@@ -33,9 +40,6 @@
                 [raised]="true" (onClick)="handleSignUpWithEmail()"></p-button>
 
             <p>-or-</p>
-            <div>
-                {{authServiceErr()}}
-            </div>
 
             <div class="btn-auth-group-wrapper">
                 <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true"

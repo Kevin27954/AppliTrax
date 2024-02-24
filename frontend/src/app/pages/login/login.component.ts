@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
 import { AuthService } from '../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,7 @@ export class LoginComponent {
   passwordClassName: string = '';
   passwordSmallClassName: string = 'hide';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   logout() {
     this.authService.logout();
@@ -75,10 +76,14 @@ export class LoginComponent {
     }
 
     if (emailRegexTest && passwordRegexTest) {
-      this.authService.loginWithEmail(
-        this.formGroup.value.email!,
-        this.formGroup.value.password!
-      );
+      this.authService
+        .loginWithEmail(
+          this.formGroup.value.email!,
+          this.formGroup.value.password!
+        )
+        .subscribe(() => {
+          this.router.navigate(['overview']);
+        });
     }
   }
 

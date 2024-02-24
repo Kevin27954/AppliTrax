@@ -1,9 +1,18 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { first, map, retry } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
 
 export const authGuard = (): CanActivateFn => {
   return () => {
-    return inject(AuthService).authenticated();
+    let authService = inject(AuthService);
+    let router = inject(Router);
+
+    return authService.auth$.pipe(
+      map((user) => {
+        return !!user || router.parseUrl('auth/login');
+      }),
+    );
   };
 };

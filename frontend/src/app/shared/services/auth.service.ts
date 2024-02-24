@@ -1,30 +1,21 @@
 import {
   Injectable,
-  OnDestroy,
   WritableSignal,
   signal,
   OnInit,
+  computed,
 } from '@angular/core';
 import {
   Auth,
   User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
   authState,
+  signOut,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import {
-  Subscription,
-  catchError,
-  from,
-  throwError,
-  pipe,
-  tap,
-  Observable,
-  map,
-  take,
-} from 'rxjs';
+import { catchError, from, throwError, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const emailRegex: RegExp =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -38,17 +29,15 @@ const passwordStrongRegex: RegExp =
 })
 export class AuthService {
   auth$ = authState(this.auth);
+  user: WritableSignal<User | null> = signal(null);
+  isAuth = computed(() => !!this.user());
+
   authError: WritableSignal<string> = signal('');
 
-  constructor(private auth: Auth, private router: Router) {}
-
-  authenticated(): Observable<boolean> {
-    return this.auth$.pipe(
-      map((user) => {
-        return !!user;
-      }),
-      take(1)
-    );
+  constructor(private auth: Auth, private router: Router) {
+    this.auth$.pipe(takeUntilDestroyed()).subscribe((user) => {
+      this.user.set(user);
+    });
   }
 
   refreshToken() {
@@ -66,31 +55,23 @@ export class AuthService {
   }
 
   signUpWithEmail(email: string, password: string) {
-    this.authError.set('');
-
-    from(createUserWithEmailAndPassword(this.auth, email, password))
-      .pipe(
-        catchError((error) => {
-          return this.handleAuthError(error);
-        })
-      )
-      .subscribe((userCred) => {
-        this.router.navigate(['overview']);
-      });
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
+      tap(() => this.authError.set('')),
+      catchError((error) => {
+        return this.handleAuthError(error);
+      })
+    );
   }
 
   loginWithEmail(email: string, password: string) {
-    this.authError.set('');
-
-    from(signInWithEmailAndPassword(this.auth, email, password))
-      .pipe(
-        catchError((error) => {
-          return this.handleAuthError(error);
-        })
-      )
-      .subscribe((userCred) => {
-        this.router.navigate(['overview']);
-      });
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      tap(() => this.authError.set('')),
+      catchError((error) => {
+        return this.handleAuthError(error);
+      })
+    );
   }
 
   signUpWithGoogle() {
@@ -113,6 +94,10 @@ export class AuthService {
     console.log('Handling forgot password users');
   }
 
+  logout() {
+    signOut(this.auth);
+  }
+
   handleAuthError(error: any) {
     let errMessage = this.handleErrorCode(error);
     this.authError.set(errMessage);
@@ -129,9 +114,5 @@ export class AuthService {
     } else {
       return 'Login Failed' + error.code;
     }
-  }
-
-  logout() {
-    signOut(this.auth);
   }
 }

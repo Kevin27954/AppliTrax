@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AuthService } from '../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +44,7 @@ export class RegisterComponent {
 
   authServiceErr: WritableSignal<string> = this.authService.authError;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   handleSignUpWithEmail() {
     let emailRegexTest: boolean = this.authService.checkEmailRegex(
@@ -77,10 +78,14 @@ export class RegisterComponent {
     }
 
     if (emailRegexTest && passwordRegexTest) {
-      this.authService.signUpWithEmail(
-        this.formGroup.value.email!,
-        this.formGroup.value.password!
-      );
+      this.authService
+        .signUpWithEmail(
+          this.formGroup.value.email!,
+          this.formGroup.value.password!
+        )
+        .subscribe(() => {
+          this.router.navigate(['overview']);
+        });
     }
   }
 

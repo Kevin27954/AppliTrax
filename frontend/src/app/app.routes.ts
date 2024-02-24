@@ -11,40 +11,49 @@ import { authGuard } from './shared/guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: HomeComponent,
   },
   {
-    path: 'auth/login',
-    component: LoginComponent,
-    title: 'Login Page',
+    path: '',
+    canActivate: [authGuard()],
+    
+    children: [
+      {
+        path: 'overview',
+        component: OverviewComponent,
+        title: 'Overview',
+      },
+      {
+        path: 'application',
+        component: ApplicationComponent,
+        title: 'Applications',
+      },
+      {
+        path: 'jobboards',
+        component: JobBoardComponent,
+        title: 'JobBoards',
+      },
+      {
+        path: 'trending',
+        component: TrendingComponent,
+        title: 'Trending Applications',
+      },
+    ],
   },
   {
-    path: 'auth/register',
-    component: RegisterComponent,
-    title: 'Register Page',
-  },
-  {
-    path: 'overview',
-    component: OverviewComponent,
-    title: 'Overview',
-    canActivate:[authGuard()]
-  },
-  {
-    path: 'application',
-    component: ApplicationComponent,
-    title: 'Applications',
-    canActivate:[authGuard()]
-  },
-  {
-    path: 'jobboards',
-    component: JobBoardComponent,
-    title: 'JobBoards',
-    canActivate:[authGuard()]
-  },
-  {
-    path: 'trending',
-    component: TrendingComponent,
-    title: 'Trending Applications',
-    canActivate:[authGuard()]
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+        title: 'Login Page',
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+        title: 'Register Page',
+      },
+    ],
   },
 ];
