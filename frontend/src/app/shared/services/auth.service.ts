@@ -1,30 +1,96 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable,
+  OnDestroy,
+  WritableSignal,
+  signal,
+  OnInit,
+} from '@angular/core';
+import {
+  Auth,
+  User,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  authState,
+} from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import {
+  Subscription,
+  catchError,
+  from,
+  throwError,
+  pipe,
+  tap,
+  Observable,
+  map,
+  take,
+} from 'rxjs';
+
+const emailRegex: RegExp =
+  /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+const passwordMediumRegex: RegExp =
+  /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
+const passwordStrongRegex: RegExp =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  emailRegex: RegExp =
-    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-  passwordMediumRegex: RegExp =
-    /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/;
-  passwordStrongRegex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+  auth$ = authState(this.auth);
+  authError: WritableSignal<string> = signal('');
 
-  constructor() {}
+  constructor(private auth: Auth, private router: Router) {}
+
+  authenticated(): Observable<boolean> {
+    return this.auth$.pipe(
+      map((user) => {
+        return !!user;
+      }),
+      take(1)
+    );
+  }
+
+  refreshToken() {
+    this.auth.currentUser?.getIdToken();
+  }
 
   checkEmailRegex(email: string) {
-    return this.emailRegex.test(email);
+    return emailRegex.test(email);
   }
 
   checkPasswordRegex(password: string) {
     return (
-      this.passwordMediumRegex.test(password) ||
-      this.passwordStrongRegex.test(password)
+      passwordMediumRegex.test(password) || passwordStrongRegex.test(password)
     );
   }
 
   signUpWithEmail(email: string, password: string) {
-    console.log(`Signing Up with ${email} and ${password}`);
+    this.authError.set('');
+
+    from(createUserWithEmailAndPassword(this.auth, email, password))
+      .pipe(
+        catchError((error) => {
+          return this.handleAuthError(error);
+        })
+      )
+      .subscribe((userCred) => {
+        this.router.navigate(['overview']);
+      });
+  }
+
+  loginWithEmail(email: string, password: string) {
+    this.authError.set('');
+
+    from(signInWithEmailAndPassword(this.auth, email, password))
+      .pipe(
+        catchError((error) => {
+          return this.handleAuthError(error);
+        })
+      )
+      .subscribe((userCred) => {
+        this.router.navigate(['overview']);
+      });
   }
 
   signUpWithGoogle() {
@@ -33,10 +99,6 @@ export class AuthService {
 
   signUpWithGitHub() {
     console.log('Signing up in with github');
-  }
-
-  loginWithEmail(email: string, password: string) {
-    console.log(`Logging in with ${email} and ${password}`);
   }
 
   loginWithGoogle() {
@@ -49,5 +111,27 @@ export class AuthService {
 
   forgotPassword() {
     console.log('Handling forgot password users');
+  }
+
+  handleAuthError(error: any) {
+    let errMessage = this.handleErrorCode(error);
+    this.authError.set(errMessage);
+    return throwError(() => new Error(errMessage));
+  }
+
+  handleErrorCode(error: any) {
+    if (error.code == 'auth/user-not-found') {
+      return 'User not Found';
+    } else if (error.code == 'auth/wrong-password') {
+      return 'Incorrect Credentials';
+    } else if (error.code == 'auth/network-request-failed') {
+      return 'Auth Server Not up';
+    } else {
+      return 'Login Failed' + error.code;
+    }
+  }
+
+  logout() {
+    signOut(this.auth);
   }
 }

@@ -33,6 +33,9 @@
                 [raised]="true" (onClick)="handleSignUpWithEmail()"></p-button>
 
             <p>-or-</p>
+            <div>
+                {{authServiceErr()}}
+            </div>
 
             <div class="btn-auth-group-wrapper">
                 <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal } from '@angular/core';
 
 import {
   FormsModule,
@@ -34,11 +34,14 @@ export class RegisterComponent {
     confirmPassword: FormControl<string | null>;
     checked: FormControl<boolean | null>;
   }>;
+
   emailClassName: string = '';
   emailSmallClassName: string = 'hide';
   passwordClassName: string = '';
   passwordSmallClassName: string = 'hide';
   passwordSmallText: string = '';
+
+  authServiceErr: WritableSignal<string> = this.authService.authError;
 
   constructor(private authService: AuthService) {}
 
