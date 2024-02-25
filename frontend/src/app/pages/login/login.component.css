@@ -53,16 +53,13 @@ main {
 }
 
 #input-auth-forms,
-.div-auth-misc-wrapper,
+#a-login-forgot-pass,
 #btn-auth-cont,
 .btn-auth-group-wrapper {
     width: 90%;
 }
 
-.div-auth-misc-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#a-login-forgot-pass {
     margin: 1rem;
 }
 

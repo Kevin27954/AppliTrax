@@ -2,8 +2,8 @@ import {
   Injectable,
   WritableSignal,
   signal,
-  OnInit,
   computed,
+  OnDestroy,
 } from '@angular/core';
 import {
   Auth,
@@ -12,10 +12,19 @@ import {
   signInWithEmailAndPassword,
   authState,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-import { catchError, from, throwError, tap } from 'rxjs';
+import {
+  catchError,
+  from,
+  tap,
+  first,
+  Subscription,
+  EMPTY,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Message } from 'primeng/api';
 
 const emailRegex: RegExp =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -27,17 +36,20 @@ const passwordStrongRegex: RegExp =
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
   auth$ = authState(this.auth);
+  authSubscription: Subscription | undefined;
   user: WritableSignal<User | null> = signal(null);
   isAuth = computed(() => !!this.user());
 
-  authError: WritableSignal<string> = signal('');
+  authError: WritableSignal<Message[]> = signal([]);
 
-  constructor(private auth: Auth, private router: Router) {
-    this.auth$.pipe(takeUntilDestroyed()).subscribe((user) => {
-      this.user.set(user);
-    });
+  constructor(private auth: Auth) {
+    this.authSubscription = this.auth$
+      .pipe(takeUntilDestroyed())
+      .subscribe((user) => {
+        this.user.set(user);
+      });
   }
 
   refreshToken() {
@@ -58,7 +70,8 @@ export class AuthService {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
     ).pipe(
-      tap(() => this.authError.set('')),
+      first(),
+      tap(() => this.authError.set([])),
       catchError((error) => {
         return this.handleAuthError(error);
       })
@@ -67,23 +80,28 @@ export class AuthService {
 
   loginWithEmail(email: string, password: string) {
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      tap(() => this.authError.set('')),
+      first(),
+      tap(() => this.authError.set([])),
       catchError((error) => {
         return this.handleAuthError(error);
       })
     );
   }
 
-  signUpWithGoogle() {
-    console.log('Signing up with google');
+  handleSignInWithGoogle() {
+    let provider = new GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    return from(signInWithPopup(this.auth, provider)).pipe(
+      first(),
+      catchError((error) => {
+        return this.handleAuthError(error);
+      })
+    );
   }
 
   signUpWithGitHub() {
     console.log('Signing up in with github');
-  }
-
-  loginWithGoogle() {
-    console.log('Logging in with google');
   }
 
   loginWithGithub() {
@@ -100,19 +118,41 @@ export class AuthService {
 
   handleAuthError(error: any) {
     let errMessage = this.handleErrorCode(error);
-    this.authError.set(errMessage);
-    return throwError(() => new Error(errMessage));
+    this.authError.set([errMessage]);
+    return EMPTY;
   }
 
   handleErrorCode(error: any) {
-    if (error.code == 'auth/user-not-found') {
-      return 'User not Found';
-    } else if (error.code == 'auth/wrong-password') {
-      return 'Incorrect Credentials';
-    } else if (error.code == 'auth/network-request-failed') {
-      return 'Auth Server Not up';
-    } else {
-      return 'Login Failed' + error.code;
+    switch (error.code) {
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+        return {
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Incorrect Credentials',
+        };
+      case 'auth/network-request-failed':
+        return {
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Auth Server Not up',
+        };
+      case 'auth/email-already-in-use':
+        return {
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Email Already Taken',
+        };
+      default:
+        return {
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Login Failed ' + error.code,
+        };
     }
+  }
+
+  ngOnDestroy() {
+    this.authSubscription?.unsubscribe();
   }
 }

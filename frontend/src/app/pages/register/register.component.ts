@@ -1,29 +1,32 @@
 import { Component, OnInit, WritableSignal } from '@angular/core';
-
 import {
   FormsModule,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Message } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PasswordModule,
     InputTextModule,
     ButtonModule,
     CheckboxModule,
+    MessagesModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -37,47 +40,42 @@ export class RegisterComponent {
   }>;
 
   emailClassName: string = '';
-  emailSmallClassName: string = 'hide';
+  emailRegexResult: boolean = true;
   passwordClassName: string = '';
-  passwordSmallClassName: string = 'hide';
+  passwordRegexResult: boolean = true;
   passwordSmallText: string = '';
+  isSamePassword: boolean = true;
 
-  authServiceErr: WritableSignal<string> = this.authService.authError;
+  authServiceErr: WritableSignal<Message[]> = this.authService.authError;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   handleSignUpWithEmail() {
-    let emailRegexTest: boolean = this.authService.checkEmailRegex(
+    this.emailRegexResult = this.authService.checkEmailRegex(
       this.formGroup.value.email!
     );
-    let passwordRegexTest: boolean = this.authService.checkPasswordRegex(
+    this.passwordRegexResult = this.authService.checkPasswordRegex(
       this.formGroup.value.password!
     );
+    this.isSamePassword =
+      this.formGroup.value.password == this.formGroup.value.confirmPassword;
 
-    if (emailRegexTest) {
-      this.emailSmallClassName = 'hide';
-      this.emailClassName = '';
-    } else {
-      this.emailClassName = 'ng-invalid ng-dirty';
-      this.emailSmallClassName = '';
-    }
+    this.emailClassName = this.emailRegexResult ? '' : 'ng-invalid ng-dirty';
 
-    if (passwordRegexTest) {
-      this.passwordClassName = '';
-      this.passwordSmallClassName = 'hide';
-    } else if (
-      this.formGroup.value.password != this.formGroup.value.confirmPassword
+    this.passwordClassName =
+      this.passwordRegexResult && this.isSamePassword
+        ? ''
+        : 'ng-invalid ng-dirty';
+
+    this.passwordSmallText = this.isSamePassword
+      ? 'Weak Password'
+      : 'Not Equal Password';
+
+    if (
+      this.emailRegexResult &&
+      this.passwordRegexResult &&
+      this.isSamePassword
     ) {
-      this.passwordClassName = 'ng-invalid ng-dirty';
-      this.passwordSmallClassName = '';
-      this.passwordSmallText = 'Not Equal Password';
-    } else {
-      this.passwordClassName = 'ng-invalid ng-dirty';
-      this.passwordSmallClassName = '';
-      this.passwordSmallText = 'Weak Password';
-    }
-
-    if (emailRegexTest && passwordRegexTest) {
       this.authService
         .signUpWithEmail(
           this.formGroup.value.email!,
@@ -89,6 +87,16 @@ export class RegisterComponent {
     }
   }
 
+  handleLoginWithGoogle() {
+    this.authService.handleSignInWithGoogle().subscribe(() => {
+      this.router.navigate(['dashboard']);
+    });
+  }
+
+  handleLoginWithGithub() {
+    this.authService.loginWithGithub();
+  }
+
   ngOnInit() {
     this.formGroup = new FormGroup({
       email: new FormControl(''),
@@ -96,5 +104,9 @@ export class RegisterComponent {
       confirmPassword: new FormControl(''),
       checked: new FormControl(false),
     });
+
+    if(this.authService.isAuth()) {
+      this.router.navigate(['dashboard'])
+    }
   }
 }

@@ -7,6 +7,7 @@ import { JobBoardComponent } from './pages/job-board/job-board.component';
 import { TrendingComponent } from './pages/trending/trending.component';
 import { HomeComponent } from './pages/home/home.component';
 import { authGuard } from './shared/guards/auth.guard';
+import { LayoutComponent } from './shared/components/layout/layout.component';
 
 export const routes: Routes = [
   {
@@ -15,10 +16,15 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: '',
+    path: 'dashboard',
     canActivate: [authGuard()],
-    
+    component: LayoutComponent,
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'overview',
+      },
       {
         path: 'overview',
         component: OverviewComponent,

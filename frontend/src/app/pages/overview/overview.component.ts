@@ -23,7 +23,6 @@ export class OverviewComponent {
   constructor(private authService: AuthService, private router: Router) {
     effect(() => {
       if (!this.authService.isAuth()) {
-        console.log("I ran?");
         this.router.navigate(['auth/login']);
       }
     });

@@ -1,4 +1,5 @@
 <main>
+    <p-messages [(value)]="authServiceErr" [enableService]="false" [closable]="true"></p-messages>
     <h1 id="h1-auth">Ready to Job Hunt?</h1>
     <p id="p-auth">Organize and Store all Your Applications on AppliTrax</p>
 
@@ -11,22 +12,19 @@
                     <label id="label-auth-inputs" for="email">Email</label>
                     <input data-testid="input-email" [class]="emailClassName" pInputText type="text" required
                         formControlName="email" id="email" name="email" placeholder="Email">
-                    <small [class]="emailSmallClassName" id="email-help">Invalid Email<Address></Address></small>
+                    <small *ngIf="!emailRegexResult" id="email-help">Invalid Email<Address></Address></small>
                 </div>
 
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="password">Password</label>
                     <p-password data-testid="input-password" [class]="passwordClassName" formControlName="password"
                         [toggleMask]="true" [feedback]="false" placeholder="Password" />
-                    <small [class]="passwordSmallClassName" id="email-help">Weak Password<Address></Address></small>
+                    <small *ngIf="!passwordRegexResult" id="email-help">Weak Password<Address></Address></small>
                 </div>
             </div>
 
-            <div class="div-auth-misc-wrapper">
-                <p-checkbox data-testid="cb-remember-me" formControlName="checked" label="Remember Me" [binary]="true"
-                    inputId="binary"></p-checkbox>
-                <a data-testid="a-forgot-pass" class="text-link" (click)="handleForgotPassword()">Forgot Password?</a>
-            </div>
+            <a id="a-login-forgot-pass" data-testid="a-forgot-pass" class="text-link"
+                (click)="handleForgotPassword()">Forgot Password?</a>
 
             <p-button data-testid="btn-auth" class="bg-light-green" id="btn-auth-cont" label="Continue" [text]="true"
                 [raised]="true" type="submit" (click)="handleLoginWithEmail()"></p-button>
@@ -42,8 +40,4 @@
 
         </form>
     </div>
-
-    <button (click)="logout()">
-        LOGOUT
-    </button>
 </main>

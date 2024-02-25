@@ -1,4 +1,6 @@
 <main>
+    <p-messages [(value)]="authServiceErr" [enableService]="false" [closable]="true"></p-messages>
+
     <h1 id="h1-auth">Ready to Job Hunt?</h1>
     <p id="p-auth">Organize and Store all Your Applications Here</p>
 
@@ -6,24 +8,19 @@
 
         <form class="form-auth" [formGroup]="formGroup">
 
-            <div>
-                {{authServiceErr()}}
-            </div>
-
             <div id="input-auth-forms" class="div-auth-inputs-wrapper">
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="email">Email</label>
                     <input data-testid="input-email" [class]="emailClassName" pInputText type="text" required
                         formControlName="email" id="email" name="email" placeholder="Email">
-                    <small [class]="emailSmallClassName" id="email-help">Invalid Email<Address></Address></small>
+                    <small *ngIf="!emailRegexResult" id="email-help">Invalid Email Address</small>
                 </div>
 
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="password">Password</label>
                     <p-password data-testid="input-password" [class]="passwordClassName" formControlName="password"
                         [toggleMask]="true" [feedback]="false" placeholder="Password" />
-                    <small [class]="passwordSmallClassName" id="email-help">{{passwordSmallText}}<Address></Address>
-                        </small>
+                    <small *ngIf="!(passwordRegexResult && isSamePassword)" id="password-help">{{passwordSmallText}}</small>
                 </div>
 
                 <div class="div-auth-inputs-wrapper">
@@ -31,8 +28,7 @@
                     <p-password data-testid="input-password" [class]="passwordClassName"
                         formControlName="confirmPassword" [toggleMask]="true" [feedback]="false"
                         placeholder="Confirm Password" />
-                    <small [class]="passwordSmallClassName" id="email-help">{{passwordSmallText}}<Address></Address>
-                        </small>
+                    <small *ngIf="!(passwordRegexResult && isSamePassword)" id="password-help">{{passwordSmallText}}</small>
                 </div>
             </div>
 
@@ -43,9 +39,9 @@
 
             <div class="btn-auth-group-wrapper">
                 <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true"
-                    [raised]="true"></p-button>
+                [raised]="true" (onClick)="handleLoginWithGoogle()"></p-button>
                 <p-button data-testid="btn-auth-github" id="btn-auth-github" icon="pi pi-github" [outlined]="true"
-                    [raised]="true"></p-button>
+                    [raised]="true" (onClick)="handleLoginWithGithub()"></p-button>
             </div>
 
         </form>

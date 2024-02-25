@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
@@ -22,10 +22,11 @@ export class AppComponent {
       '/',
       'auth/login',
       'auth/register',
-      'overview',
-      'application',
-      'jobboards',
-      'trending',
+      'dashboard',
+      'dashboard/overview',
+      'dashboard/application',
+      'dashboard/jobboards',
+      'dashboard/trending',
     ];
   }
 }
