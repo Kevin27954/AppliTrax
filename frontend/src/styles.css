@@ -93,6 +93,12 @@ small {
     border-radius: 10px;
 }
 
+.p-messages{
+    margin: 0px 1rem 0px 1rem;
+    position: fixed;
+    width: calc(100% - 2rem)
+}
+
 /* Overwrite CSS styles */
 
 #btn-auth-cont>.p-button>.p-button-label,

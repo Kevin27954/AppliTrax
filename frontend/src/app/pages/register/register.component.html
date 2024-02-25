@@ -1,5 +1,6 @@
+<p-messages [(value)]="authServiceErr" [enableService]="false" [closable]="true"></p-messages>
+
 <main>
-    <p-messages [(value)]="authServiceErr" [enableService]="false" [closable]="true"></p-messages>
 
     <h1 id="h1-auth">Ready to Job Hunt?</h1>
     <p id="p-auth">Organize and Store all Your Applications Here</p>
@@ -20,7 +21,8 @@
                     <label id="label-auth-inputs" for="password">Password</label>
                     <p-password data-testid="input-password" [class]="passwordClassName" formControlName="password"
                         [toggleMask]="true" [feedback]="false" placeholder="Password" />
-                    <small *ngIf="!(passwordRegexResult && isSamePassword)" id="password-help">{{passwordSmallText}}</small>
+                    <small *ngIf="!(passwordRegexResult && isSamePassword)"
+                        id="password-help">{{passwordSmallText}}</small>
                 </div>
 
                 <div class="div-auth-inputs-wrapper">
@@ -28,7 +30,8 @@
                     <p-password data-testid="input-password" [class]="passwordClassName"
                         formControlName="confirmPassword" [toggleMask]="true" [feedback]="false"
                         placeholder="Confirm Password" />
-                    <small *ngIf="!(passwordRegexResult && isSamePassword)" id="password-help">{{passwordSmallText}}</small>
+                    <small *ngIf="!(passwordRegexResult && isSamePassword)"
+                        id="password-help">{{passwordSmallText}}</small>
                 </div>
             </div>
 
@@ -39,12 +42,11 @@
 
             <div class="btn-auth-group-wrapper">
                 <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true"
-                [raised]="true" (onClick)="handleLoginWithGoogle()"></p-button>
+                    [raised]="true" (onClick)="handleLoginWithGoogle()"></p-button>
                 <p-button data-testid="btn-auth-github" id="btn-auth-github" icon="pi pi-github" [outlined]="true"
                     [raised]="true" (onClick)="handleLoginWithGithub()"></p-button>
             </div>
 
         </form>
-
     </div>
 </main>
