@@ -108,5 +108,7 @@ export class RegisterComponent {
     if(this.authService.isAuth()) {
       this.router.navigate(['dashboard'])
     }
+
+    this.authServiceErr.set([]);
   }
 }

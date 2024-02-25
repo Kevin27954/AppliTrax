@@ -96,6 +96,8 @@ export class LoginComponent implements OnDestroy {
     if(this.authService.isAuth()) {
       this.router.navigate(['dashboard'])
     }
+
+    this.authServiceErr.set([]);
   }
 
   ngOnDestroy() {}
