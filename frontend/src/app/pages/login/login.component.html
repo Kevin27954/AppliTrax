@@ -25,11 +25,9 @@
                 </div>
             </div>
 
-            <div class="div-login-link-wrapper">
+            <div class="div-login-forgot-pass-wrapper">
                 <a id="a-login-forgot-pass" data-testid="a-forgot-pass" class="text-link"
                     (click)="handleForgotPassword()">Forgot Password?</a>
-                <a routerLink="/auth/register" data-testid="a-new-user" class="text-link"
-                    (click)="handleForgotPassword()">New User?</a>
             </div>
 
             <p-button data-testid="btn-auth" class="bg-light-green" id="btn-auth-cont" label="Continue" [text]="true"
@@ -43,6 +41,9 @@
                 <p-button data-testid="btn-auth-github" id="btn-auth-github" icon="pi pi-github" [outlined]="true"
                     [raised]="true" (onClick)="handleLoginWithGithub()"></p-button>
             </div>
+
+            <p>Don't have an Account? <a routerLink="/auth/register" data-testid="a-new-user" class="text-link"
+                    (click)="handleForgotPassword()">Register</a></p>
 
         </form>
     </div>

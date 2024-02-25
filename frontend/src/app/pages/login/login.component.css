@@ -55,14 +55,11 @@ main {
 #input-auth-forms,
 #btn-auth-cont,
 .btn-auth-group-wrapper,
-.div-login-link-wrapper {
+.div-login-forgot-pass-wrapper {
     width: 90%;
 }
 
-.div-login-link-wrapper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.div-login-forgot-pass-wrapper {
     margin-bottom: 1rem;
 }
 
