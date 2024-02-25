@@ -53,14 +53,17 @@ main {
 }
 
 #input-auth-forms,
-#a-login-forgot-pass,
 #btn-auth-cont,
-.btn-auth-group-wrapper {
+.btn-auth-group-wrapper,
+.div-login-link-wrapper {
     width: 90%;
 }
 
-#a-login-forgot-pass {
-    margin: 1rem;
+.div-login-link-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 #btn-auth-cont {

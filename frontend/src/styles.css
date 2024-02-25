@@ -70,7 +70,9 @@ small {
 }
 
 .text-link {
+    text-decoration: none;
     font-weight: bold;
+    color: inherit;
 }
 
 .text-link:hover {
@@ -93,17 +95,20 @@ small {
     border-radius: 10px;
 }
 
-.p-messages{
+.p-messages {
     margin: 0px 1rem 0px 1rem;
     position: fixed;
-    width: calc(100% - 2rem)
+    width: 25rem;
+    top: 1rem;
+    right: 1rem;
+    overflow: auto;
 }
 
 /* Overwrite CSS styles */
 
 #btn-auth-cont>.p-button>.p-button-label,
 #btn-auth-google>.p-button>.p-button-label,
-#btn-auth-github>.p-button>.p-button-label  {
+#btn-auth-github>.p-button>.p-button-label {
     color: black;
     font-weight: bold;
 }

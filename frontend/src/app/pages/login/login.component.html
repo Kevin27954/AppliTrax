@@ -25,8 +25,12 @@
                 </div>
             </div>
 
-            <a id="a-login-forgot-pass" data-testid="a-forgot-pass" class="text-link"
-                (click)="handleForgotPassword()">Forgot Password?</a>
+            <div class="div-login-link-wrapper">
+                <a id="a-login-forgot-pass" data-testid="a-forgot-pass" class="text-link"
+                    (click)="handleForgotPassword()">Forgot Password?</a>
+                <a routerLink="/auth/register" data-testid="a-new-user" class="text-link"
+                    (click)="handleForgotPassword()">New User?</a>
+            </div>
 
             <p-button data-testid="btn-auth" class="bg-light-green" id="btn-auth-cont" label="Continue" [text]="true"
                 [raised]="true" type="submit" (click)="handleLoginWithEmail()"></p-button>

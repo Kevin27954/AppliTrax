@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AuthService } from '../../shared/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
@@ -26,7 +26,8 @@ import { MessagesModule } from 'primeng/messages';
     InputTextModule,
     ButtonModule,
     CheckboxModule,
-    MessagesModule
+    MessagesModule,
+    RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
