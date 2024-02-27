@@ -1,1 +1,115 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/primeng.css";
+@import "primeng/resources/themes/saga-green/theme.css";
+@import "primeicons/primeicons.css";
+
+:root {
+    /* Background / Text for contrast */
+    --dark-gray: #2A2B2E;
+    /* Background */
+    --gray: #5A5A66;
+    /* Common Color, use with popout, never two boxes with same color */
+    --dark-green: #A4C2A8;
+    /* Common Color, use with popout, alternate between thsee two */
+    --green: #ADEB98;
+    /* Colorful popout */
+    --light-green: #87FF65;
+}
+
+/* Global Tag CSS */
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+small {
+    color: lightslategray;
+}
+
+/* Global Class CSS */
+
+.dark-gray {
+    color: var(--dark-gray);
+}
+
+.gray {
+    color: var(--gray);
+}
+
+.dark-green {
+    color: var(--dark-green);
+}
+
+.green {
+    color: var(--green);
+}
+
+.light-green {
+    color: var(--light-green);
+}
+
+.bg-dark-gray {
+    background-color: var(--dark-gray);
+}
+
+.bg-gray {
+    background-color: var(--gray);
+}
+
+.bg-dark-green {
+    background-color: var(--dark-green);
+}
+
+.bg-green {
+    background-color: var(--green);
+}
+
+.bg-light-green {
+    background-color: var(--light-green);
+}
+
+.text-link {
+    font-weight: bold;
+}
+
+.text-link:hover {
+    cursor: pointer;
+    color: var(--green);
+}
+
+/* Global PrimeNG Component CSS */
+
+.p-inputtext,
+.p-button {
+    border-radius: 10px;
+}
+
+.p-button {
+    box-shadow: none;
+}
+
+.p-password-panel {
+    border-radius: 10px;
+}
+
+/* Overwrite CSS styles */
+
+#btn-auth-cont>.p-button>.p-button-label,
+#btn-auth-google>.p-button>.p-button-label,
+#btn-auth-github>.p-button>.p-button-label  {
+    color: black;
+    font-weight: bold;
+}
+
+#btn-auth-cont>.p-button {
+    width: 100%;
+    padding: 10px;
+}
+
+.div-auth-inputs-wrapper>p-password>.p-password,
+.div-auth-inputs-wrapper>p-password>.p-password>.p-inputtext,
+.btn-auth-group-wrapper>#btn-auth-google>.p-button,
+.btn-auth-group-wrapper>#btn-auth-github>.p-button {
+    width: 100%;
+}
