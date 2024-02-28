@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal, OnDestroy } from '@angular/core';
 import {
   FormsModule,
   FormControl,
@@ -9,8 +9,11 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-
+import { MessagesModule } from 'primeng/messages';
 import { AuthService } from '../../shared/services/auth.service';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -18,67 +21,66 @@ import { AuthService } from '../../shared/services/auth.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
     PasswordModule,
     InputTextModule,
     ButtonModule,
     CheckboxModule,
+    MessagesModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   formGroup!: FormGroup<{
     email: FormControl<string | null>;
     password: FormControl<string | null>;
     checked: FormControl<boolean | null>;
   }>;
-  checked: boolean = false;
+
+  authServiceErr: WritableSignal<Message[]> = this.authService.authError;
 
   emailClassName: string = '';
-  emailSmallClassName: string = 'hide';
+  emailRegexResult: boolean = true;
   passwordClassName: string = '';
-  passwordSmallClassName: string = 'hide';
+  passwordRegexResult: boolean = true;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   handleForgotPassword() {
     this.authService.forgotPassword();
   }
 
   handleLoginWithEmail() {
-    let emailRegexTest: boolean = this.authService.checkEmailRegex(
+    this.emailRegexResult = this.authService.checkEmailRegex(
       this.formGroup.value.email!
     );
-    let passwordRegexTest: boolean = this.authService.checkPasswordRegex(
+    this.passwordRegexResult = this.authService.checkPasswordRegex(
       this.formGroup.value.password!
     );
 
-    if (emailRegexTest) {
-      this.emailSmallClassName = 'hide';
-      this.emailClassName = '';
-    } else {
-      this.emailClassName = 'ng-invalid ng-dirty';
-      this.emailSmallClassName = '';
-    }
+    this.emailClassName = this.emailRegexResult ? '' : 'ng-invalid ng-dirty';
+    this.passwordClassName = this.passwordRegexResult
+      ? ''
+      : 'ng-invalid ng-dirty';
 
-    if (passwordRegexTest) {
-      this.passwordClassName = '';
-      this.passwordSmallClassName = 'hide';
-    } else {
-      this.passwordClassName = 'ng-invalid ng-dirty';
-      this.passwordSmallClassName = '';
-    }
-
-    if (emailRegexTest && passwordRegexTest) {
-      this.authService.loginWithEmail(
-        this.formGroup.value.email!,
-        this.formGroup.value.password!
-      );
+    if (this.emailRegexResult && this.passwordRegexResult) {
+      this.authService
+        .loginWithEmail(
+          this.formGroup.value.email!,
+          this.formGroup.value.password!
+        )
+        .subscribe(() => {
+          this.router.navigate(['dashboard']);
+        });
     }
   }
 
   handleLoginWithGoogle() {
-    this.authService.loginWithGoogle();
+    this.authService.handleSignInWithGoogle().subscribe(() => {
+      this.router.navigate(['dashboard']);
+    });
   }
 
   handleLoginWithGithub() {
@@ -91,5 +93,13 @@ export class LoginComponent {
       password: new FormControl(''),
       checked: new FormControl(false),
     });
+    
+    if(this.authService.isAuth()) {
+      this.router.navigate(['dashboard'])
+    }
+
+    this.authServiceErr.set([]);
   }
+
+  ngOnDestroy() {}
 }

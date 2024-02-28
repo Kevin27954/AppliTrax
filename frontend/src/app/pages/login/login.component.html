@@ -1,43 +1,50 @@
+<p-messages [(value)]="authServiceErr" [enableService]="false" [closable]="true"></p-messages>
+
 <main>
+
     <h1 id="h1-auth">Ready to Job Hunt?</h1>
     <p id="p-auth">Organize and Store all Your Applications on AppliTrax</p>
 
     <div class="div-auth-form-wrapper">
 
-        <form class="form-auth" [formGroup]="formGroup">
+        <form class="form-auth" [formGroup]="formGroup" (ngSubmit)="handleLoginWithEmail()">
 
             <div id="input-auth-forms" class="div-auth-inputs-wrapper">
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="email">Email</label>
-                    <input data-testid="input-email" [class]="emailClassName" pInputText type="text" required formControlName="email" id="email"
-                        name="email" placeholder="Email">
-                    <small [class]="emailSmallClassName" id="email-help">Invalid Email<Address></Address></small>
+                    <input data-testid="input-email" [class]="emailClassName" pInputText type="text" required
+                        formControlName="email" id="email" name="email" placeholder="Email">
+                    <small *ngIf="!emailRegexResult" id="email-help">Invalid Email<Address></Address></small>
                 </div>
 
                 <div class="div-auth-inputs-wrapper">
                     <label id="label-auth-inputs" for="password">Password</label>
-                    <p-password data-testid="input-password" [class]="passwordClassName" formControlName="password" [toggleMask]="true" [feedback]="false"
-                        placeholder="Password" />
-                    <small [class]="passwordSmallClassName" id="email-help">Weak Password<Address></Address></small>
+                    <p-password data-testid="input-password" [class]="passwordClassName" formControlName="password"
+                        [toggleMask]="true" [feedback]="false" placeholder="Password" />
+                    <small *ngIf="!passwordRegexResult" id="email-help">Weak Password<Address></Address></small>
                 </div>
             </div>
 
-            <div class="div-auth-misc-wrapper">
-                <p-checkbox data-testid="cb-remember-me" formControlName="checked" label="Remember Me" [binary]="true" inputId="binary"></p-checkbox>
-                <a data-testid="a-forgot-pass" class="text-link" (click)="handleForgotPassword()">Forgot Password?</a>
+            <div class="div-login-forgot-pass-wrapper">
+                <a id="a-login-forgot-pass" data-testid="a-forgot-pass" class="text-link"
+                    (click)="handleForgotPassword()">Forgot Password?</a>
             </div>
 
-            <p-button data-testid="btn-auth" class="bg-light-green" id="btn-auth-cont" label="Continue" [text]="true" [raised]="true"
-                (click)="handleLoginWithEmail()"></p-button>
+            <p-button data-testid="btn-auth" class="bg-light-green" id="btn-auth-cont" label="Continue" [text]="true"
+                [raised]="true" type="submit" (click)="handleLoginWithEmail()"></p-button>
 
-            <p>-or-</p>
+            <p>- or -</p>
 
             <div class="btn-auth-group-wrapper">
-                <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true" [raised]="true" (onClick)="handleLoginWithGoogle()"></p-button>
-                <p-button data-testid="btn-auth-github" id="btn-auth-github" icon="pi pi-github" [outlined]="true" [raised]="true" (onClick)="handleLoginWithGithub()"></p-button>
+                <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true"
+                    [raised]="true" (onClick)="handleLoginWithGoogle()"></p-button>
+                <p-button data-testid="btn-auth-github" id="btn-auth-github" icon="pi pi-github" [outlined]="true"
+                    [raised]="true" (onClick)="handleLoginWithGithub()"></p-button>
             </div>
 
-        </form>
+            <p>Don't have an Account? <a routerLink="/auth/register" data-testid="a-new-user" class="text-link"
+                    (click)="handleForgotPassword()">Register</a></p>
 
+        </form>
     </div>
 </main>
