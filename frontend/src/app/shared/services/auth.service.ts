@@ -94,6 +94,7 @@ export class AuthService implements OnDestroy {
     provider.addScope('email');
     return from(signInWithPopup(this.auth, provider)).pipe(
       first(),
+      tap(() => this.authError.set([])),
       catchError((error) => {
         return this.handleAuthError(error);
       })
