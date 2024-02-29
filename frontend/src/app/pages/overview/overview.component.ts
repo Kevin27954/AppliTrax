@@ -1,15 +1,5 @@
-import {
-  Component,
-  OnInit,
-  WritableSignal,
-  computed,
-  effect,
-  signal,
-} from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-overview',
@@ -19,17 +9,5 @@ import { User } from 'firebase/auth';
   styleUrl: './overview.component.css',
 })
 export class OverviewComponent {
-
-  constructor(private authService: AuthService, private router: Router) {
-    effect(() => {
-      if (!this.authService.isAuth()) {
-        this.router.navigate(['auth/login']);
-      }
-    });
-  }
-
-  logout() {
-    this.authService.logout();
-  }
-
+  constructor() {}
 }

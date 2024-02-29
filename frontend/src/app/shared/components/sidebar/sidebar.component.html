@@ -1,1 +1,30 @@
-<p>sidebar works!</p>
+<div class="sidebar">
+    
+    <div class="div-sidebar-nav">
+        <h1>AppliTrax</h1>
+        <a routerLink="overview" routerLinkActive="active-link">
+            <div class="div-sidebar-single-link">
+                <i class="pi pi-table"></i><span>Overview</span>
+            </div>
+        </a>
+        <a routerLink="application" routerLinkActive="active-link">
+            <div class="div-sidebar-single-link">
+                <i class="pi pi-map"></i><span>Applications</span>
+            </div>
+        </a>
+        <a routerLink="jobboards" routerLinkActive="active-link">
+            <div class="div-sidebar-single-link">
+                <i class="pi pi-briefcase"></i><span>Job Boards</span>
+            </div>
+        </a>
+        <a routerLink="trending" routerLinkActive="active-link">
+            <div class="div-sidebar-single-link">
+                <fa-icon [icon]="faArrowTrendUp"></fa-icon><span>Trending</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="btn-sidebar-signout" (click)="logout()">
+        <i class="pi pi-sign-out"></i><span>Log Out</span>
+    </div>
+</div>
