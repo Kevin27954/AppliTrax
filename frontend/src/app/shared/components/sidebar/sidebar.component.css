@@ -1,0 +1,61 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    color: white;
+    background-color: var(--dark-gray);
+}
+
+h1 {
+    margin: auto;
+    padding: 2rem;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    background-color: #6b8e7b;
+}
+
+.div-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.div-sidebar-single-link {
+    padding: 1rem 1rem 1rem 1.5rem;
+    display: flex;
+    color: white;
+}
+
+.div-sidebar-single-link:hover {
+    color: var(--light-green);
+}
+
+fa-icon,
+i {
+    margin-right: 1rem;
+}
+
+.btn-sidebar-signout {
+    margin: 3rem auto 3rem auto;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-sidebar-signout:hover {
+    color: var(--light-green);
+    cursor: pointer;
+}
+
+.active-link {
+    font-weight: bold;
+}
+
+.active-link>* {
+    color: var(--light-green);
+}

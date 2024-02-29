@@ -22,11 +22,6 @@ export class AppComponent {
       '/',
       'auth/login',
       'auth/register',
-      'dashboard',
-      'dashboard/overview',
-      'dashboard/application',
-      'dashboard/jobboards',
-      'dashboard/trending',
     ];
   }
 }
