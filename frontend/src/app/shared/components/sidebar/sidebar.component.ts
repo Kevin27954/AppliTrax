@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,17 +13,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SidebarComponent {
   faArrowTrendUp = faArrowTrendUp;
-  activeLink = 'active-link';
 
-  constructor(private authService: AuthService, private router: Router) {
-    effect(() => {
-      if (!this.authService.isAuth()) {
-        this.router.navigate(['auth/login']);
-      }
-    });
-  }
+  @Output() signOutBtn = new EventEmitter<void>();
 
-  logout() {
-    this.authService.logout();
+  signOutBtnEmitter() {
+    this.signOutBtn.emit();
   }
 }

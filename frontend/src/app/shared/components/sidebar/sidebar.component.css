@@ -44,7 +44,7 @@ i {
 .btn-sidebar-signout {
     margin: 3rem auto 3rem auto;
     display: flex;
-    justify-content: center;
+    align-items: center;
 }
 
 .btn-sidebar-signout:hover {

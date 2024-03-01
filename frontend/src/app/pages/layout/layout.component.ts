@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,5 +14,15 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
   styleUrl: './layout.component.css',
 })
 export class LayoutComponent {
+  constructor(private authService: AuthService, private router: Router) {
+    effect(() => {
+      if (!this.authService.isAuth()) {
+        this.router.navigate(['auth/login']);
+      }
+    });
+  }
 
+  logOut() {
+    this.authService.logout();
+  }
 }
