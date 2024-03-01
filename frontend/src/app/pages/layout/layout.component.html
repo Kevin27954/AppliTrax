@@ -1,5 +1,5 @@
 <div class="layout">
-    <app-sidebar class="sidebar"></app-sidebar>
+    <app-sidebar class="sidebar" (signOutBtn)="logOut()"></app-sidebar>
     <main>
         <app-page-header></app-page-header>
         <router-outlet></router-outlet>
