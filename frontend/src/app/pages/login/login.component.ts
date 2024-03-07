@@ -1,4 +1,11 @@
-import { Component, OnInit, WritableSignal, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  OnDestroy,
+  inject,
+  effect,
+} from '@angular/core';
 import {
   FormsModule,
   FormControl,
@@ -27,12 +34,15 @@ import { Message } from 'primeng/api';
     ButtonModule,
     CheckboxModule,
     MessagesModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
+  authService = inject(AuthService);
+  router = inject(Router);
+
   formGroup!: FormGroup<{
     email: FormControl<string | null>;
     password: FormControl<string | null>;
@@ -46,7 +56,13 @@ export class LoginComponent implements OnDestroy {
   passwordClassName: string = '';
   passwordRegexResult: boolean = true;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor() {
+    effect(() => {
+      if (this.authService.isAuth()) {
+        this.router.navigate(['dashboard']);
+      }
+    });
+  }
 
   handleForgotPassword() {
     this.authService.forgotPassword();
@@ -93,10 +109,6 @@ export class LoginComponent implements OnDestroy {
       password: new FormControl(''),
       checked: new FormControl(false),
     });
-    
-    if(this.authService.isAuth()) {
-      this.router.navigate(['dashboard'])
-    }
 
     this.authServiceErr.set([]);
   }
