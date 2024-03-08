@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MessagesModule } from 'primeng/messages';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,7 @@ import { Message } from 'primeng/api';
     CheckboxModule,
     MessagesModule,
     RouterLink,
+    ProgressSpinnerModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

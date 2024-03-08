@@ -104,6 +104,34 @@ small {
     overflow: auto;
 }
 
+.p-progress-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.p-progress-spinner-circle {
+    animation: spinner-color-alternate 2s infinite linear;
+}
+
+@keyframes spinner-color-alternate {
+    0% {
+        stroke: #2A2B2E;
+    }
+
+    33% {
+        stroke: #A4C2A8;
+    }
+
+    66% {
+        stroke: #ADEB98;
+    }
+
+    100% {
+        stroke: #2A2B2E;
+    }
+}
+
 /* Overwrite CSS styles */
 
 #btn-auth-cont>.p-button>.p-button-label,
