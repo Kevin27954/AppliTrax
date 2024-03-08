@@ -1,5 +1,6 @@
 <p-messages [(value)]="authServiceErr" [enableService]="false" [closable]="true"></p-messages>
 
+@defer (on timer(500)) {
 <main>
 
     <h1 id="h1-auth">Ready to Job Hunt?</h1>
@@ -48,3 +49,7 @@
         </form>
     </div>
 </main>
+}
+@placeholder {
+    <p-progressSpinner animationDuration="2s" ariaLabel="loading"></p-progressSpinner>
+}

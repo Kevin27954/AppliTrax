@@ -1,4 +1,10 @@
-import { Component, OnInit, WritableSignal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  effect,
+  inject,
+} from '@angular/core';
 import {
   FormsModule,
   FormControl,
@@ -27,12 +33,15 @@ import { MessagesModule } from 'primeng/messages';
     ButtonModule,
     CheckboxModule,
     MessagesModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
+
   formGroup!: FormGroup<{
     email: FormControl<string | null>;
     password: FormControl<string | null>;
@@ -49,7 +58,13 @@ export class RegisterComponent {
 
   authServiceErr: WritableSignal<Message[]> = this.authService.authError;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor() {
+    effect(() => {
+      if (this.authService.isAuth()) {
+        this.router.navigate(['dashboard']);
+      }
+    });
+  }
 
   handleSignUpWithEmail() {
     this.emailRegexResult = this.authService.checkEmailRegex(
@@ -105,10 +120,6 @@ export class RegisterComponent {
       confirmPassword: new FormControl(''),
       checked: new FormControl(false),
     });
-
-    if(this.authService.isAuth()) {
-      this.router.navigate(['dashboard'])
-    }
 
     this.authServiceErr.set([]);
   }

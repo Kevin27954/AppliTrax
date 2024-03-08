@@ -1,4 +1,11 @@
-import { Component, OnInit, WritableSignal, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  OnDestroy,
+  inject,
+  effect,
+} from '@angular/core';
 import {
   FormsModule,
   FormControl,
@@ -10,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MessagesModule } from 'primeng/messages';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -27,12 +35,16 @@ import { Message } from 'primeng/api';
     ButtonModule,
     CheckboxModule,
     MessagesModule,
-    RouterLink
+    RouterLink,
+    ProgressSpinnerModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
+  authService = inject(AuthService);
+  router = inject(Router);
+
   formGroup!: FormGroup<{
     email: FormControl<string | null>;
     password: FormControl<string | null>;
@@ -46,7 +58,13 @@ export class LoginComponent implements OnDestroy {
   passwordClassName: string = '';
   passwordRegexResult: boolean = true;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor() {
+    effect(() => {
+      if (this.authService.isAuth()) {
+        this.router.navigate(['dashboard']);
+      }
+    });
+  }
 
   handleForgotPassword() {
     this.authService.forgotPassword();
@@ -93,10 +111,6 @@ export class LoginComponent implements OnDestroy {
       password: new FormControl(''),
       checked: new FormControl(false),
     });
-    
-    if(this.authService.isAuth()) {
-      this.router.navigate(['dashboard'])
-    }
 
     this.authServiceErr.set([]);
   }
