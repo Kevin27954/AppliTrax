@@ -4,7 +4,7 @@ import { UserData } from "../../types/types";
 import { ObjectId } from "mongodb";
 
 export const userRouter = express.Router();
-const userCollection = getCollection("user");
+const userCollection = getCollection("users");
 
 userRouter.get("/", (req, res) => {
     const query = { uid: req.user!.uid };

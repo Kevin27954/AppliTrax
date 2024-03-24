@@ -28,7 +28,7 @@ const testUser: DecodedIdToken = {
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
     const reqHeaderAuth = req.headers.authorization;
 
-    if (reqHeaderAuth == null || reqHeaderAuth == "") {
+    if (reqHeaderAuth == null || reqHeaderAuth == "" || reqHeaderAuth.length < 8) {
         return res.sendStatus(401);
     }
     const token = reqHeaderAuth.split(" ")[1];
