@@ -4,6 +4,8 @@ import cors, { CorsOptions } from "cors";
 import bodyParser from "body-parser";
 import { start_mongo, closeConnection } from "./src/mongo-util";
 import { jobRouter } from "./src/mongo/jobs/jobs.route";
+import { userRouter } from "./src/mongo/users/users.routes";
+import { verifyToken } from "./src/auth/auth.util";
 
 config();
 
@@ -18,11 +20,14 @@ let corsConfig: CorsOptions = {
 app.use(cors(corsConfig));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// Verifies idToken and stores it in req.user
+app.use(verifyToken);
 
 app.use("/jobs", jobRouter);
+app.use("/user", userRouter);
 
-app.get("/", cors(corsConfig), (req: Request, res: Response) => {
-    res.send("Typescript backend");
+app.get("/", (req: Request, res: Response) => {
+    res.send(req.user);
 });
 
 // Starts Mongo Connection
@@ -34,5 +39,5 @@ app.listen(PORT, () => {
 });
 
 // Close Mongo Connection
-process.on('SIGINT', closeConnection);
-process.on('SIGTERM', closeConnection);
+process.on("SIGINT", closeConnection);
+process.on("SIGTERM", closeConnection);
