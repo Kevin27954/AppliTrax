@@ -27,11 +27,14 @@ const testUser: DecodedIdToken = {
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
     const reqHeaderAuth = req.headers.authorization;
-
-    if (reqHeaderAuth == null || reqHeaderAuth == "" || reqHeaderAuth.length < 8) {
+    if (reqHeaderAuth == null || reqHeaderAuth == "" || reqHeaderAuth == undefined) {
         return res.sendStatus(401);
     }
-    const token = reqHeaderAuth.split(" ")[1];
+
+    const token = reqHeaderAuth.split(" ")[1]
+    if(token == undefined) {
+        return res.sendStatus(401);
+    }
 
     if (process.env.PROD == "true") {
         auth.verifyIdToken(token, true)
