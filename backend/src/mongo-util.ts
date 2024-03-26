@@ -17,13 +17,15 @@ export async function start_mongo() {
     try {
         await mongoClient.connect();
         await mongoClient.db("admin").command({ ping: 1 });
-
-        const serverStatus = await mongoClient.db("admin").command({ serverStatus: 1 });
-        console.log("Current number of connections:", serverStatus.connections);
-
         console.log(
             "Pinged your deployment. You successfully connected to MongoDB!"
         );
+
+        const serverStatus = await mongoClient
+            .db("admin")
+            .command({ serverStatus: 1 });
+        console.log("Current number of connections:", serverStatus.connections);
+
     } catch (error) {
         console.log("Mongo Error", error);
         mongoClient.close();
@@ -34,4 +36,14 @@ export function closeConnection() {
     console.log("Closing Connection");
     mongoClient.close(); // Close MongodDB Connection when Process ends
     process.exit(); // Exit with default success-code '0'.
+}
+
+export function getCollection(collectionName: string) {
+    if (!process.env.PRDO) {
+        var db = mongoClient.db(process.env.MONGODB_DEV);
+    } else {
+        var db = mongoClient.db(process.env.MONGODB_PROD);
+    }
+
+    return db.collection(collectionName);
 }

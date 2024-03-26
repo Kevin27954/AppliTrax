@@ -53,7 +53,7 @@ export class AuthService implements OnDestroy {
   }
 
   refreshToken() {
-    this.auth.currentUser?.getIdToken();
+    return this.auth.currentUser?.getIdToken();
   }
 
   checkEmailRegex(email: string) {
