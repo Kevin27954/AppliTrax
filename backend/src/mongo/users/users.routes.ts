@@ -29,6 +29,7 @@ userRouter.put("/register", (req, res) => {
         username: "",
         createdOn: new Date(),
         updatedOn: new Date(),
+        lastLogin: new Date()
     };
     // If exist updates, otherwise insert
     const options = { upsert: true };
@@ -39,6 +40,25 @@ userRouter.put("/register", (req, res) => {
         .updateOne(query, { $setOnInsert: regsterUserData }, options)
         .then((mongoRespond) => {
             if (mongoRespond.acknowledged) {
+                res.status(200).json({ message: "success" });
+            }
+        })
+        .catch((err) => {
+            res.status(404).json({ message: err.message });
+        });
+});
+
+userRouter.post("/login", (req, res) => {
+    userCollection
+        .updateOne(
+            { uid: req.user!.uid },
+            {
+                $currentDate: { lastLogin: true as any },
+            }
+        )
+        .then((mongoResponse) => {
+            // Check if request went through
+            if (mongoResponse.acknowledged) {
                 res.status(200).json({ message: "success" });
             }
         })
@@ -76,5 +96,8 @@ userRouter.post("/edit", (req, res) => {
             if (mongoResponse.acknowledged) {
                 res.status(200).json({ message: "success" });
             }
+        })
+        .catch((err) => {
+            res.status(404).json({ message: err.message });
         });
 });

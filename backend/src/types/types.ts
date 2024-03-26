@@ -20,4 +20,5 @@ export interface UserData {
     major: string;
     createdOn: Date;
     updatedOn: Date;
+    lastLogin: Date;
 }
