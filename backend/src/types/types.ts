@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 
-export type Status = "applied" | "rejected" | "interview" | "offer";
+export type Status = "applied" | "rejected" | "interview" | "offer" | "archived";
 
 export interface JobApplicationData {
     job_title: string;
@@ -21,4 +21,23 @@ export interface UserData {
     createdOn: Date;
     updatedOn: Date;
     lastLogin: Date;
+}
+
+export interface JobDetail {
+    _id: ObjectId;
+    title: string;
+    location: string;
+    company: string;
+    jobtype: string;
+}
+
+export interface UserApplication {
+    _id: ObjectId;
+    uid: string;
+    jobDetail: JobDetail;
+    status: Status;
+    notes: string;
+    appliedOn: Date;
+    createdOn: Date;
+    updatedOn: Date;
 }
