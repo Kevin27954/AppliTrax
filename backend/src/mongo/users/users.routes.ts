@@ -15,7 +15,7 @@ userRouter.get("/", (req, res) => {
             res.status(200).json({ data: userData, message: "success" });
         })
         .catch((err) => {
-            res.status(404).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         });
 });
 
@@ -29,7 +29,7 @@ userRouter.put("/register", (req, res) => {
         username: "",
         createdOn: new Date(),
         updatedOn: new Date(),
-        lastLogin: new Date()
+        lastLogin: new Date(),
     };
     // If exist updates, otherwise insert
     const options = { upsert: true };
@@ -44,7 +44,7 @@ userRouter.put("/register", (req, res) => {
             }
         })
         .catch((err) => {
-            res.status(404).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         });
 });
 
@@ -63,7 +63,7 @@ userRouter.post("/login", (req, res) => {
             }
         })
         .catch((err) => {
-            res.status(404).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         });
 });
 
@@ -98,6 +98,6 @@ userRouter.post("/edit", (req, res) => {
             }
         })
         .catch((err) => {
-            res.status(404).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         });
 });
