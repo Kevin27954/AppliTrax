@@ -15,11 +15,11 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { AuthService } from '../../shared/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -56,8 +56,6 @@ export class RegisterComponent {
   passwordSmallText: string = '';
   isSamePassword: boolean = true;
 
-  authServiceErr: WritableSignal<Message[]> = this.authService.authError;
-
   constructor() {
     effect(() => {
       if (this.authService.isAuth()) {
@@ -67,12 +65,6 @@ export class RegisterComponent {
   }
 
   handleSignUpWithEmail() {
-    this.emailRegexResult = this.authService.checkEmailRegex(
-      this.formGroup.value.email!
-    );
-    this.passwordRegexResult = this.authService.checkPasswordRegex(
-      this.formGroup.value.password!
-    );
     this.isSamePassword =
       this.formGroup.value.password == this.formGroup.value.confirmPassword;
 
@@ -87,30 +79,15 @@ export class RegisterComponent {
       ? 'Weak Password'
       : 'Not Equal Password';
 
-    if (
-      this.emailRegexResult &&
-      this.passwordRegexResult &&
-      this.isSamePassword
-    ) {
-      this.authService
-        .signUpWithEmail(
-          this.formGroup.value.email!,
-          this.formGroup.value.password!
-        )
-        .subscribe(() => {
-          this.router.navigate(['overview']);
-        });
-    }
+
   }
 
   handleLoginWithGoogle() {
-    this.authService.handleSignInWithGoogle().subscribe(() => {
-      this.router.navigate(['dashboard']);
-    });
+    console.log('google');
   }
 
   handleLoginWithGithub() {
-    this.authService.loginWithGithub();
+    console.log('github');
   }
 
   ngOnInit() {
@@ -120,7 +97,5 @@ export class RegisterComponent {
       confirmPassword: new FormControl(''),
       checked: new FormControl(false),
     });
-
-    this.authServiceErr.set([]);
   }
 }

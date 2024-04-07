@@ -4,7 +4,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,6 +17,7 @@ export class LayoutComponent {
   constructor(private authService: AuthService, private router: Router) {
     effect(() => {
       if (!this.authService.isAuth()) {
+        console.log("did I ran in lyout?")
         this.router.navigate(['auth/login']);
       }
     });

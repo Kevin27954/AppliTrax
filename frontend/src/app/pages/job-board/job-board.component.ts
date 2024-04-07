@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-job-board',
@@ -9,5 +8,4 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrl: './job-board.component.css',
 })
 export class JobBoardComponent {
-  constructor(private authService: AuthService) {}
 }
