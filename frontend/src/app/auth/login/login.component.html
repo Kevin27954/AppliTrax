@@ -7,10 +7,12 @@
     <p id="p-auth">Organize and Store all Your Applications on AppliTrax</p>
 
     <div class="div-auth-form-wrapper">
-        <app-login-form (emailFormEmitter)="handleEmailFormEmit($event)" (thirdPartyAuthEmitter)="handleThirdPartyAuthEmit($event)" (forgotPasswordEmitter)="handleForgotPasswordEmit"></app-login-form>
+        <app-login-form (emailFormEmitter)="handleEmailFormEmit($event)"
+            (thirdPartyAuthEmitter)="handleThirdPartyAuthEmit($event)"
+            (forgotPasswordEmitter)="handleForgotPasswordEmit()"></app-login-form>
     </div>
 </main>
 }
 @placeholder {
-    <p-progressSpinner animationDuration="2s" ariaLabel="loading"></p-progressSpinner>
+<p-progressSpinner animationDuration="2s" ariaLabel="loading"></p-progressSpinner>
 }

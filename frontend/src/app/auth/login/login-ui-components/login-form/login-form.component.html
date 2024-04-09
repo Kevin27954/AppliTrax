@@ -1,4 +1,4 @@
-<form class="form-auth" [formGroup]="formGroup" (ngSubmit)="submitEmailFormData()">
+<form class="form-auth" [formGroup]="formGroup" (ngSubmit)="emitEmailFormData()">
 
     <div id="input-auth-forms" class="div-auth-inputs-wrapper">
         <div class="div-auth-inputs-wrapper">
@@ -18,22 +18,22 @@
 
     <div class="div-login-forgot-pass-wrapper">
         <a id="a-login-forgot-pass" data-testid="a-forgot-pass" class="text-link"
-            (click)="forgotPassword()">Forgot Password?</a>
+            (click)="emitForgotPassword()">Forgot Password?</a>
     </div>
 
     <p-button data-testid="btn-auth" class="bg-light-green" id="btn-auth-cont" label="Continue" [text]="true"
-        [raised]="true" type="submit" (click)="submitEmailFormData()"></p-button>
+        [raised]="true" type="submit" (click)="emitEmailFormData()"></p-button>
 
     <p>- or -</p>
 
     <div class="btn-auth-group-wrapper">
         <p-button data-testid="btn-auth-google" id="btn-auth-google" icon="pi pi-google" [outlined]="true"
-            [raised]="true" (onClick)="submitGoogleAuth()"></p-button>
+            [raised]="true" (onClick)="emitGoogleAuth()"></p-button>
         <p-button data-testid="btn-auth-github" id="btn-auth-github" icon="pi pi-github" [outlined]="true"
-            [raised]="true" (onClick)="submitGithubAuth()"></p-button>
+            [raised]="true" (onClick)="emitGithubAuth()"></p-button>
     </div>
 
     <p>Don't have an Account? <a routerLink="/auth/register" data-testid="a-new-user" class="text-link"
-            (click)="forgotPassword()">Register</a></p>
+            (click)="emitForgotPassword()">Register</a></p>
 
 </form>

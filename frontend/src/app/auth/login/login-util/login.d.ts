@@ -3,3 +3,5 @@ export interface LoginFormData {
   password: FormControl<any>;
   checked: FormControl<any>;
 }
+
+export type fieldClassType = 'ng-invalid ng-dirty' | '';

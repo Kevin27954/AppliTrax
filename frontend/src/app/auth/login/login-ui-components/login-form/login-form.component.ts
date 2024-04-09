@@ -8,14 +8,13 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
-import { LoginFormData } from '../../login-util/login';
+import { LoginFormData, fieldClassType } from '../../login-util/login';
 import {
   checkEmailRegex,
   checkPasswordRegex,
 } from '../../../auth-util/auth-util';
 import { InputTextModule } from 'primeng/inputtext';
-
-type fieldClassType = 'ng-invalid ng-dirty' | '';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -27,6 +26,7 @@ type fieldClassType = 'ng-invalid ng-dirty' | '';
     CommonModule,
     ReactiveFormsModule,
     InputTextModule,
+    RouterLink,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
@@ -47,26 +47,30 @@ export class LoginFormComponent {
   @Output() thirdPartyAuthEmitter = new EventEmitter<string>();
   @Output() forgotPasswordEmitter = new EventEmitter<string>();
 
-  submitEmailFormData() {
-    let emailRegexResult = checkEmailRegex(this.formGroup.value.email);
-    let passwordRegexResult = checkPasswordRegex(this.formGroup.value.password);
-    this.emailClassName = emailRegexResult ? '' : 'ng-invalid ng-dirty';
-    this.passwordClassName = passwordRegexResult ? '' : 'ng-invalid ng-dirty';
+  emitEmailFormData() {
+    this.emailRegexResult = checkEmailRegex(this.formGroup.value.email);
+    this.passwordRegexResult = checkPasswordRegex(
+      this.formGroup.value.password
+    );
+    this.emailClassName = this.emailRegexResult ? '' : 'ng-invalid ng-dirty';
+    this.passwordClassName = this.passwordRegexResult
+      ? ''
+      : 'ng-invalid ng-dirty';
 
-    if (emailRegexResult && passwordRegexResult) {
+    if (this.emailRegexResult && this.passwordRegexResult) {
       this.emailFormEmitter.emit(this.formGroup);
     }
   }
 
-  submitGoogleAuth() {
+  emitGoogleAuth() {
     this.thirdPartyAuthEmitter.emit('google');
   }
 
-  submitGithubAuth() {
+  emitGithubAuth() {
     this.thirdPartyAuthEmitter.emit('github');
   }
 
-  forgotPassword() {
+  emitForgotPassword() {
     this.forgotPasswordEmitter.emit();
   }
 }
