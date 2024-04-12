@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { OverviewComponent } from './pages/overview/overview.component';
-import { ApplicationComponent } from './pages/application/application.component';
-import { JobBoardComponent } from './pages/job-board/job-board.component';
-import { TrendingComponent } from './pages/trending/trending.component';
-import { HomeComponent } from './pages/home/home.component';
-import { authGuard } from './shared/guards/auth.guard';
-import { LayoutComponent } from './pages/layout/layout.component';
+import { authGuard } from './guards/auth.guard';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { HomeComponent } from './layout/pages/home/home.component';
+import { LayoutComponent } from './layout/layout.component';
+import { OverviewComponent } from './layout/pages/overview/overview.component';
+import { ApplicationComponent } from './layout/pages/application/application.component';
+import { JobBoardComponent } from './layout/pages/job-board/job-board.component';
+import { TrendingComponent } from './layout/pages/trending/trending.component';
 
 export const routes: Routes = [
   {

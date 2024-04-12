@@ -1,0 +1,61 @@
+.form-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+    padding: 2rem;
+    width: 35vw;
+    min-width: 350px;
+    box-shadow: 0px 0px 10px #b3b3b3;
+    background-color: white;
+}
+
+.div-auth-inputs-wrapper>[formcontrolname="password"],
+.div-auth-inputs-wrapper>.p-inputtext {
+    margin: 0.5rem 0rem 0.5rem 0rem;
+}
+
+.div-auth-inputs-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0rem 1rem 0rem;
+}
+
+.div-auth-inputs-wrapper>[formcontrolname="password"]>.p-password,
+.div-auth-inputs-wrapper>[formcontrolname="password"]>.p-password>.p-inputtext,
+.div-auth-form-wrapper {
+    width: 100%;
+}
+
+#input-auth-forms,
+#btn-auth-cont,
+.btn-auth-group-wrapper,
+.div-login-forgot-pass-wrapper {
+    width: 90%;
+}
+
+.div-login-forgot-pass-wrapper {
+    margin-bottom: 1rem;
+}
+
+#btn-auth-cont {
+    border-radius: 10px;
+}
+
+.btn-auth-group-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-auth-group-wrapper>#btn-auth-google,
+.btn-auth-group-wrapper>#btn-auth-github {
+    flex: 1;
+}
+
+.btn-auth-group-wrapper>#btn-auth-google {
+    margin-right: 10px;
+}
+
+.btn-auth-group-wrapper>#btn-auth-github {
+    margin-left: 10px;
+}

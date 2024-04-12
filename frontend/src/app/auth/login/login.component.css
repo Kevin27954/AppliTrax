@@ -1,0 +1,21 @@
+main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.div-auth-form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#h1-auth {
+    margin-bottom: 0px;
+}
+
+#h1-auth,
+#p-auth {
+    text-align: center;
+}
