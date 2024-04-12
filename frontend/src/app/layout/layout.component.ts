@@ -1,10 +1,9 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
-
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
-import { AuthService } from '../../auth/auth.service';
+import { SidebarComponent } from './layout-ui-components/sidebar/sidebar.component';
+import { PageHeaderComponent } from './layout-ui-components/page-header/page-header.component';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -14,10 +13,12 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './layout.component.css',
 })
 export class LayoutComponent {
-  constructor(private authService: AuthService, private router: Router) {
+  authService: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+
+  constructor() {
     effect(() => {
       if (!this.authService.isAuth()) {
-        console.log("did I ran in lyout?")
         this.router.navigate(['auth/login']);
       }
     });
