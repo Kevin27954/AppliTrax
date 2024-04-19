@@ -1,0 +1,9 @@
+.div-application-boards-wrapper {
+    display: flex;
+    padding: 1rem;
+}
+
+.board-application {
+    height: min-content;
+    margin: .25rem;
+}

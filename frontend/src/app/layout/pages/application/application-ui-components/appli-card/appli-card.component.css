@@ -1,0 +1,12 @@
+p {
+    margin: 8px;
+}
+
+.div-appli-card {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 0.25rem;
+    background-color: white;
+}

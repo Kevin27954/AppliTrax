@@ -1,15 +1,16 @@
 .layout {
-    display: flex;
-    flex: 1;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .sidebar {
+    position: fixed;
     display: flex;
-    flex-grow: 1;
+    width: 15rem;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
 }
 
-main {
-    flex-grow: 1;
-    width: 80%;
+.div-layout-wrapper {
+    margin-left: 15rem; 
 }

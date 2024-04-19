@@ -1,0 +1,29 @@
+.appli-card-container {
+    overflow-y: auto;
+    max-height: 70vh;
+    margin: 1rem;
+}
+
+.card-application-board {
+    width: 22rem;
+    display: block;
+    border: 1px solid var(--dark-green);
+    border-radius: 12px;
+    box-shadow: 0px 4px 7px var(--green-100);
+    background-color: white;
+}
+
+#header {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    margin-top: 1rem;
+    margin-left: 1.25rem;
+}
+
+#input-application-filter {
+    margin-left: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    width: calc(100% - 2.5rem);
+}

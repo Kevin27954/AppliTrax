@@ -1,7 +1,9 @@
 <div class="layout">
     <app-sidebar class="sidebar" (signOutBtn)="logOut()"></app-sidebar>
-    <main>
-        <app-page-header></app-page-header>
-        <router-outlet></router-outlet>
-    </main>
+    <div class="div-layout-wrapper">
+        <app-page-header class="header"></app-page-header>
+        <main>
+            <router-outlet></router-outlet>
+        </main>
+    </div>
 </div>

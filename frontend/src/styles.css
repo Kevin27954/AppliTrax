@@ -14,6 +14,8 @@
     --green: #ADEB98;
     /* Colorful popout */
     --light-green: #87FF65;
+
+    --border-color: rgb(202, 224, 209);
 }
 
 /* Global Tag CSS */
@@ -21,6 +23,7 @@
 body {
     margin: 0px;
     padding: 0px;
+    background-color: #efefef;
 }
 
 small {
@@ -91,6 +94,10 @@ small {
     box-shadow: none;
 }
 
+.p-card-title {
+    font-size: 1rem;
+}
+
 .p-password-panel {
     border-radius: 10px;
 }
@@ -130,6 +137,11 @@ small {
     100% {
         stroke: #2A2B2E;
     }
+}
+
+.p-draggable-enter {
+    box-shadow: 0px 4px 20px var(--light-green);
+    border-radius: 12px;
 }
 
 /* Overwrite CSS styles */
