@@ -28,8 +28,8 @@ export class ApplicationComponent {
 
   statues: Status[] = [
     'applied',
-    'rejected',
     'interview',
+    'rejected',
     'offered',
     'accepted',
     'declined',
