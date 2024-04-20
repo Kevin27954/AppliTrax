@@ -1,9 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ApplicationService } from './application-service/application.service';
-import {
-  UserApplication,
-  Status,
-} from './application-utils/application';
+import { UserApplication, Status } from './application-utils/application';
 import { CommonModule } from '@angular/common';
 import { AppliCardComponent } from './application-ui-components/appli-card/appli-card.component';
 import { AppliBoardComponent } from './application-ui-components/appli-board/appli-board.component';
@@ -19,12 +16,15 @@ import { DragDropModule } from 'primeng/dragdrop';
     AppliCardComponent,
     AppliBoardComponent,
     DragDropModule,
+    CommonModule,
   ],
 })
 export class ApplicationComponent {
   applicationSerivce: ApplicationService = inject(ApplicationService);
 
-  draggedUserApplication: [UserApplication, number, Status] | undefined | null;
+  draggedApplicationData: [UserApplication, number, Status] | undefined | null;
+
+  isDragEnter: boolean = false;
 
   statues: Status[] = [
     'applied',
@@ -46,25 +46,31 @@ export class ApplicationComponent {
   }
 
   drop(destination: Status) {
-    let updatedApplications = { ...this.applicationSerivce.applications() };
-
     if (
-      this.draggedUserApplication &&
-      destination != this.draggedUserApplication[2]
+      this.draggedApplicationData &&
+      destination != this.draggedApplicationData[2]
     ) {
-      updatedApplications[this.draggedUserApplication[2]].splice(
-        this.draggedUserApplication[1],
-        1
-      );
-      updatedApplications[destination].push(this.draggedUserApplication[0]);
+      this.applicationSerivce.applications.update((currentApplications) => {
+        let updatedApplications = { ...currentApplications };
+
+        updatedApplications[this.draggedApplicationData![2]].splice(
+          this.draggedApplicationData![1],
+          1
+        );
+
+        let draggedApplication = this.draggedApplicationData![0]
+        draggedApplication.status = destination
+
+        updatedApplications[destination].push(draggedApplication);
+
+        return updatedApplications;
+      });
     }
-
-    this.applicationSerivce.applications.set(updatedApplications);
-
-    this.draggedUserApplication = null;
+    this.draggedApplicationData = null;
   }
 
   handleDragEmit(applicationData: [UserApplication, number, Status]) {
-    this.draggedUserApplication = applicationData;
+    this.draggedApplicationData = applicationData;
   }
+
 }
