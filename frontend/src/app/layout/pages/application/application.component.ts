@@ -1,8 +1,7 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ApplicationService } from './application-service/application.service';
 import {
   UserApplication,
-  ApplicationHistory,
   Status,
 } from './application-utils/application';
 import { CommonModule } from '@angular/common';
@@ -25,23 +24,34 @@ import { DragDropModule } from 'primeng/dragdrop';
 export class ApplicationComponent {
   applicationSerivce: ApplicationService = inject(ApplicationService);
 
-  applications: WritableSignal<ApplicationHistory> = signal(
-    this.applicationSerivce.applications
-  );
-
   draggedUserApplication: [UserApplication, number, Status] | undefined | null;
 
+  statues: Status[] = [
+    'applied',
+    'rejected',
+    'interview',
+    'offered',
+    'accepted',
+    'declined',
+    'withdrawn',
+    'archived',
+  ];
+
   logApplications() {
-    console.log(this.applications());
+    console.log(this.applicationSerivce.applications());
   }
 
-  trackByFn(index: number, application: UserApplication) {
-    return application._id;
+  trackByFn(index: number, status: Status) {
+    return index;
   }
 
   drop(destination: Status) {
-    let updatedApplications = this.applications();
-    if (this.draggedUserApplication) {
+    let updatedApplications = { ...this.applicationSerivce.applications() };
+
+    if (
+      this.draggedUserApplication &&
+      destination != this.draggedUserApplication[2]
+    ) {
       updatedApplications[this.draggedUserApplication[2]].splice(
         this.draggedUserApplication[1],
         1
@@ -49,15 +59,12 @@ export class ApplicationComponent {
       updatedApplications[destination].push(this.draggedUserApplication[0]);
     }
 
-    this.applications.update(() => {
-      return updatedApplications;
-    });
+    this.applicationSerivce.applications.set(updatedApplications);
 
     this.draggedUserApplication = null;
   }
 
   handleDragEmit(applicationData: [UserApplication, number, Status]) {
     this.draggedUserApplication = applicationData;
-    console.log(applicationData[0], applicationData[1], applicationData[2]);
   }
 }

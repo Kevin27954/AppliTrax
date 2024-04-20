@@ -3,9 +3,12 @@ import {
   Input,
   WritableSignal,
   signal,
-  OnInit,
   EventEmitter,
   Output,
+  computed,
+  Signal,
+  inject,
+  OnInit,
 } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { Status, UserApplication } from '../../application-utils/application';
@@ -15,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DragDropModule } from 'primeng/dragdrop';
 import { Subscription, timer } from 'rxjs';
+import { ApplicationService } from '../../application-service/application.service';
 
 @Component({
   selector: 'app-appli-board',
@@ -31,52 +35,54 @@ import { Subscription, timer } from 'rxjs';
   styleUrl: './appli-board.component.css',
 })
 export class AppliBoardComponent {
-  @Input({ required: true }) header!: string;
-  @Input({ required: true }) applicationHistory!: UserApplication[];
+  applicationSerivce: ApplicationService = inject(ApplicationService);
 
-  temp: string = "sdfsa"
+  @Input({ required: true }) status!: Status;
 
-  filteredApplications!: WritableSignal<UserApplication[]>;
+  @Output() dragEventEmitter = new EventEmitter<
+    [UserApplication, number, Status]
+  >();
 
-  filterBy: string | undefined;
   timerSubscription: Subscription | undefined;
+  header!: string;
+  filterBy: WritableSignal<string> = signal('');
 
-  @Output() dragEventEmitter = new EventEmitter<[UserApplication, number, Status]>();
+  filteredApplications: Signal<UserApplication[]> = computed(() => {
+    let filter = this.filterBy().toLowerCase();
+    return this.applicationSerivce
+      .applications()
+      [this.status].filter(
+        (application) =>
+          application.jobDetail.company.toLowerCase().includes(filter) ||
+          application.jobDetail.title.toLowerCase().includes(filter)
+      );
+  });
 
   ngOnInit() {
-    this.temp.toUpperCase
-    this.filteredApplications = signal(this.applicationHistory);
+    this.header = this.status.charAt(0).toUpperCase() + this.status.slice(1);
   }
 
   trackByFn(index: number, application: UserApplication) {
     return application._id;
   }
 
-  getFilteredResult() {
-    return this.applicationHistory.filter((application) => {
-      return (
-        application.jobDetail.company
-          .toLowerCase()
-          .includes(this.filterBy!.toLowerCase()) ||
-        application.jobDetail.title
-          .toLowerCase()
-          .includes(this.filterBy!.toLowerCase())
-      );
-    });
-  }
-
   filterApplication(event: any) {
-    this.filterBy = event;
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
 
-    this.timerSubscription = timer(500).subscribe(() =>
-      this.filteredApplications.set(this.getFilteredResult())
-    );
+    this.timerSubscription = timer(400).subscribe(() => {
+      this.filterBy.set(event);
+    });
   }
 
-  dragStart(userApplication: UserApplication, index: number) {
-    this.dragEventEmitter.emit([userApplication, index, (this.header.toLowerCase() as Status)]);
+  dragStart(userApplication: UserApplication) {
+    let index = this.applicationSerivce
+      .applications()
+      [this.status].findIndex((application) => {
+        return application._id == userApplication._id;
+      });
+
+    this.dragEventEmitter.emit([userApplication, index, this.status]);
   }
 }

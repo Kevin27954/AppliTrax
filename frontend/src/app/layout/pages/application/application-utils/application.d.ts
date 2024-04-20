@@ -1,22 +1,3 @@
-// export interface JobDetail {
-//     _id: ObjectId;
-//     title: string;
-//     location: string;
-//     company: string;
-//     jobtype: string;
-// }
-
-// export interface UserApplication {
-//     _id: ObjectId;
-//     uid: string;
-//     jobDetail: JobDetail;
-//     status: Status;
-//     notes: string;
-//     appliedOn: Date;
-//     createdOn: Date;
-//     updatedOn: Date;
-// }
-
 export type Status =
   | 'applied'
   | 'rejected'

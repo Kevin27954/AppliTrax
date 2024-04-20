@@ -1,12 +1,9 @@
 <div class="div-application-boards-wrapper">
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('applied')" (dragEventEmitter)="handleDragEmit($event)" header="Applied" [applicationHistory]="this.applications().applied"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('interview')" (dragEventEmitter)="handleDragEmit($event)" header="Interview" [applicationHistory]="this.applications().interview"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('offered')" (dragEventEmitter)="handleDragEmit($event)" header="Offered" [applicationHistory]="this.applications().offered"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('accepted')" (dragEventEmitter)="handleDragEmit($event)" header="Accepted" [applicationHistory]="this.applications().accepted"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('declined')" (dragEventEmitter)="handleDragEmit($event)" header="Declined" [applicationHistory]="this.applications().declined"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('rejected')" (dragEventEmitter)="handleDragEmit($event)" header="Rejected" [applicationHistory]="this.applications().rejected"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('withdrawn')" (dragEventEmitter)="handleDragEmit($event)" header="Withdrawn" [applicationHistory]="this.applications().withdrawn"></app-appli-board>
-    <app-appli-board class="board-application" pDroppable (onDrop)="drop('archived')" (dragEventEmitter)="handleDragEmit($event)" header="Archived" [applicationHistory]="this.applications().archived"></app-appli-board>
+
+    <app-appli-board *ngFor="let status of statues; let index as i; trackBy: trackByFn" class="board-application"
+        pDroppable (onDrop)="drop(status)" (dragEventEmitter)="handleDragEmit($event)"
+        [status]=status></app-appli-board>
+
 </div>
 
 <button (click)="logApplications()">LOG APPLCAITONS</button>
