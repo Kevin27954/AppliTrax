@@ -1,5 +1,6 @@
 <p-sidebar [(visible)]="modalState" position="right">
-    <app-appli-card-modal [formTest]="modalApplication()" (closeModalEmitter)="oncloseModalEmit()" (formDataEmitter)="onformDataEmit($event)"></app-appli-card-modal>
+    <app-appli-card-modal [setFormData]="modalApplication()!" (closeModalEmitter)="oncloseModalEmit()"
+        (formDataEmitter)="onformDataEmit($event)"></app-appli-card-modal>
 </p-sidebar>
 
 

@@ -33,13 +33,22 @@ export class AppliCardModalComponent {
   formGroup!: FormGroup;
   applicationData!: UserApplication | null;
 
-  @Input({ required: true }) set formTest(application: UserApplication | null) {
+  @Input({ required: true }) set setFormData(
+    application: UserApplication | null
+  ) {
+    let status = '';
+    if (application != null) {
+      status =
+        application.status.charAt(0).toUpperCase() +
+          application.status.substring(1).toLowerCase() || '';
+    }
+
     this.formGroup = new FormGroup({
       title: new FormControl(application?.jobDetail.title || ''),
       appliedOn: new FormControl(application?.appliedOn || ''),
       company: new FormControl(application?.jobDetail.company || ''),
       location: new FormControl(application?.jobDetail.location || ''),
-      status: new FormControl(application?.status || ''),
+      status: new FormControl(status),
       jobType: new FormControl(application?.jobDetail.jobtype || ''),
       notes: new FormControl(application?.notes || ''),
     });
