@@ -1,1 +1,44 @@
-<p>appli-card-modal works!</p>
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+    <p-inplace>
+        <ng-template pTemplate="display">
+            <h1>{{formGroup.value.title}}</h1>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <input [value]="formGroup.value.title" pInputText formControlName="title">
+        </ng-template>
+    </p-inplace>
+
+    <p-inplace>
+        <ng-template pTemplate="display">
+            <p>{{formGroup.value.appliedOn}}</p>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <input [value]="formGroup.value.appliedOn" pInputText formControlName="appliedOn">
+        </ng-template>
+    </p-inplace>
+
+    <p-inplace>
+        <ng-template pTemplate="display">
+            <p>{{formGroup.value.company}}</p>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <input [value]="formGroup.value.company" pInputText formControlName="company">
+        </ng-template>
+    </p-inplace>
+    <p-inplace>
+        <ng-template pTemplate="display">
+            <p>{{formGroup.value.location}}</p>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <input [value]="formGroup.value.location" pInputText formControlName="location">
+        </ng-template>
+    </p-inplace>
+
+    <p-dropdown [options]="statusOptions" placeholder="Status" formControlName="status"></p-dropdown>
+    <p-dropdown [options]="jobTypeOptions" placeholder="Job Type" formControlName="jobType"></p-dropdown>
+
+    <textarea [value]="formGroup.value.notes" pInputTextarea
+        formControlName="notes">{{formGroup.value.notes}}</textarea>
+
+    <button type="submit">Subimt</button>
+</form>

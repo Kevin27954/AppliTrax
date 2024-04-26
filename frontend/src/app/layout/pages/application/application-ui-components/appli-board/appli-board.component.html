@@ -1,3 +1,8 @@
+<p-sidebar [(visible)]="modalState" position="right">
+    <app-appli-card-modal [formTest]="modalApplication()" (closeModalEmitter)="oncloseModalEmit()" (formDataEmitter)="onformDataEmit($event)"></app-appli-card-modal>
+</p-sidebar>
+
+
 <div class="card-application-board">
 
     <p id="header">{{header}}</p>
@@ -9,7 +14,7 @@
         <app-appli-card *ngFor="let application of filteredApplications(); trackBy: trackByFn"
             [jobTitle]="application.jobDetail.title" [company]="application.jobDetail.company"
             [location]="application.jobDetail.location" [jobType]="application.jobDetail.jobtype" pDraggable
-            (onDragStart)="dragStart(application)"></app-appli-card>
+            (onDragStart)="dragStart(application)" (click)="openModal(application)"></app-appli-card>
     </div>
 
 </div>

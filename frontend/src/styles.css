@@ -145,6 +145,10 @@ small {
     border-radius: 12px;
 }
 
+.p-sidebar-active {
+    width: 30rem;
+}
+
 /* Overwrite CSS styles */
 
 #btn-auth-cont>.p-button>.p-button-label,

@@ -5,7 +5,7 @@ import {
 } from '../application-utils/application';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class ApplicationService {
   constructor() {
@@ -25,6 +25,7 @@ export class ApplicationService {
 
   getApplications() {
     // HTTP get request
+    console.log("I ran")
     let temp = this.applications();
     for (const application of APPLICATIONS_MOCK_DATA) {
       temp[application.status].push(application);

@@ -9,4 +9,10 @@ p {
     margin-bottom: 1.5rem;
     padding: 0.25rem;
     background-color: white;
+    cursor: pointer;
+}
+
+
+.div-appli-card:hover {
+    background-color: #cacaca;
 }

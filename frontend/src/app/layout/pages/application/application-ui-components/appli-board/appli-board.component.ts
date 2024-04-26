@@ -17,8 +17,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DragDropModule } from 'primeng/dragdrop';
+import { SidebarModule } from 'primeng/sidebar';
 import { Subscription, timer } from 'rxjs';
 import { ApplicationService } from '../../application-service/application.service';
+import { AppliCardModalComponent } from '../appli-card-modal/appli-card-modal.component';
 
 @Component({
   selector: 'app-appli-board',
@@ -30,6 +32,8 @@ import { ApplicationService } from '../../application-service/application.servic
     InputTextModule,
     FormsModule,
     DragDropModule,
+    SidebarModule,
+    AppliCardModalComponent,
   ],
   templateUrl: './appli-board.component.html',
   styleUrl: './appli-board.component.css',
@@ -42,10 +46,14 @@ export class AppliBoardComponent {
   @Output() dragEventEmitter = new EventEmitter<
     [UserApplication, number, Status]
   >();
+  @Output() formEventEmitter = new EventEmitter<[UserApplication, number, Status]>();
 
   timerSubscription: Subscription | undefined;
   header!: string;
+  modalState: boolean = false;
   filterBy: WritableSignal<string> = signal('');
+
+  modalApplication: WritableSignal<UserApplication | null> = signal(null);
 
   filteredApplications: Signal<UserApplication[]> = computed(() => {
     let filter = this.filterBy().toLowerCase();
@@ -84,5 +92,24 @@ export class AppliBoardComponent {
       });
 
     this.dragEventEmitter.emit([userApplication, index, this.status]);
+  }
+
+  openModal(application: UserApplication) {
+    this.modalState = true;
+    this.modalApplication.set(application);
+  }
+
+  oncloseModalEmit() {
+    this.modalState = false;
+  }
+
+  onformDataEmit(modifiedApplication: UserApplication) {
+    let index = this.applicationSerivce
+      .applications()
+      [this.status].findIndex((application) => {
+        return application._id === modifiedApplication._id;
+      });
+      
+    this.formEventEmitter.emit([modifiedApplication, index, this.status]);
   }
 }

@@ -58,8 +58,8 @@ export class ApplicationComponent {
           1
         );
 
-        let draggedApplication = this.draggedApplicationData![0]
-        draggedApplication.status = destination
+        let draggedApplication = this.draggedApplicationData![0];
+        draggedApplication.status = destination;
 
         updatedApplications[destination].push(draggedApplication);
 
@@ -69,8 +69,21 @@ export class ApplicationComponent {
     this.draggedApplicationData = null;
   }
 
-  handleDragEmit(applicationData: [UserApplication, number, Status]) {
+  onDragEmit(applicationData: [UserApplication, number, Status]) {
     this.draggedApplicationData = applicationData;
   }
 
+  onFormDataEmit(applicationData: [UserApplication, number, Status]) {
+    if (applicationData[2] != applicationData[0].status) {
+      this.applicationSerivce.applications.update((currentApplications) => {
+        let updatedApplications = { ...currentApplications };
+
+        updatedApplications[applicationData[2]].splice(applicationData[1], 1);
+
+        updatedApplications[applicationData[0].status].push(applicationData[0]);
+
+        return updatedApplications;
+      });
+    }
+  }
 }
