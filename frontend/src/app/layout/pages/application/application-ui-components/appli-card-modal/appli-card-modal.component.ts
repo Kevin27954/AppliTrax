@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   JobDetail,
-  Status,
   UserApplication,
 } from '../../application-utils/application';
 import { InplaceModule } from 'primeng/inplace';
@@ -14,6 +13,7 @@ import {
 } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-appli-card-modal',
@@ -25,6 +25,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     DropdownModule,
     InputTextareaModule,
     ReactiveFormsModule,
+    CalendarModule,
   ],
   templateUrl: './appli-card-modal.component.html',
   styleUrl: './appli-card-modal.component.css',
@@ -36,6 +37,8 @@ export class AppliCardModalComponent {
   @Input({ required: true }) set setFormData(
     application: UserApplication | null
   ) {
+    this.applicationData = application;
+
     let status = '';
     if (application != null) {
       status =
@@ -48,11 +51,10 @@ export class AppliCardModalComponent {
       appliedOn: new FormControl(application?.appliedOn || ''),
       company: new FormControl(application?.jobDetail.company || ''),
       location: new FormControl(application?.jobDetail.location || ''),
-      status: new FormControl(status),
       jobType: new FormControl(application?.jobDetail.jobtype || ''),
       notes: new FormControl(application?.notes || ''),
+      status: new FormControl(status),
     });
-    this.applicationData = application;
   }
 
   @Output() closeModalEmitter = new EventEmitter<boolean>();
@@ -80,7 +82,7 @@ export class AppliCardModalComponent {
   submitForm() {
     this.closeModalEmitter.emit();
 
-    let copyJobDetail: JobDetail = {
+    let newJobDetail: JobDetail = {
       ...this.applicationData!.jobDetail,
       title: this.formGroup.value.title,
       location: this.formGroup.value.location,
@@ -90,7 +92,7 @@ export class AppliCardModalComponent {
 
     this.formDataEmitter.emit({
       ...this.applicationData!,
-      jobDetail: copyJobDetail,
+      jobDetail: newJobDetail,
       status: this.formGroup.value.status.toLowerCase(),
       notes: this.formGroup.value.notes,
       appliedOn: this.formGroup.value.appliedOn,

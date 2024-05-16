@@ -74,16 +74,13 @@ export class ApplicationComponent {
   }
 
   onFormDataEmit(applicationData: [UserApplication, number, Status]) {
-    if (applicationData[2] != applicationData[0].status) {
-      this.applicationSerivce.applications.update((currentApplications) => {
-        let updatedApplications = { ...currentApplications };
+    this.applicationSerivce.applications.update((currentApplications) => {
+      let updatedApplications = { ...currentApplications };
 
-        updatedApplications[applicationData[2]].splice(applicationData[1], 1);
+      updatedApplications[applicationData[2]].splice(applicationData[1], 1);
+      updatedApplications[applicationData[0].status].push(applicationData[0]);
 
-        updatedApplications[applicationData[0].status].push(applicationData[0]);
-
-        return updatedApplications;
-      });
-    }
+      return updatedApplications;
+    });
   }
 }

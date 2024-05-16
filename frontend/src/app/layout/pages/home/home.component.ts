@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { InplaceModule } from 'primeng/inplace';
 import { Observable, filter, first, map, of, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, InplaceModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

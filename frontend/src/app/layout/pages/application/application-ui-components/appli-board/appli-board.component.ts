@@ -103,13 +103,13 @@ export class AppliBoardComponent {
     this.modalState = false;
   }
 
-  onformDataEmit(modifiedApplication: UserApplication) {
+  onFormDataEmit(modifiedApplication: UserApplication) {
     let index = this.applicationSerivce
       .applications()
       [this.status].findIndex((application) => {
         return application._id === modifiedApplication._id;
       });
-      
+    
     this.formEventEmitter.emit([modifiedApplication, index, this.status]);
   }
 }

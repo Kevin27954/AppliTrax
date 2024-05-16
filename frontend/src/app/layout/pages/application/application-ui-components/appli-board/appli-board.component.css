@@ -27,3 +27,7 @@
     margin-bottom: 0.25rem;
     width: calc(100% - 2.5rem);
 }
+
+app-appli-card-modal {
+    height: 100%;
+}

@@ -18,14 +18,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginService: LoginService = inject(LoginService);
-  auth: AuthService = inject(AuthService);
+  authService: AuthService = inject(AuthService);
   router: Router = inject(Router);
 
   authServiceErr: WritableSignal<Message[]> = this.loginService.authError;
 
   constructor() {
     effect(() => {
-      if (this.auth.isAuth()) {
+      if (this.authService.isAuth()) {
         this.router.navigate(['/dashboard/overview']);
       }
     });
