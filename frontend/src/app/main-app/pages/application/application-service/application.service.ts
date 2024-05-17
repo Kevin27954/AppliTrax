@@ -2,6 +2,7 @@ import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
 import {
   UserApplication,
   ApplicationHistory,
+  Status,
 } from '../application-utils/application';
 
 @Injectable({
@@ -25,13 +26,53 @@ export class ApplicationService {
 
   getApplications() {
     // HTTP get request
-    console.log("I ran")
+    console.log('I ran');
     let temp = this.applications();
     for (const application of APPLICATIONS_MOCK_DATA) {
-      temp[application.status].push(application);
+      temp[application.status as Status].push(application);
     }
 
     this.applications.set(temp);
+  }
+
+  updateApplication(applicationData: [UserApplication, number, Status]) {
+    this.applications.update((currentApplications) => {
+      let updatedApplications = { ...currentApplications };
+
+      if (applicationData[2] === applicationData[0].status) {
+        updatedApplications[applicationData[2]][applicationData[1]] =
+          applicationData[0];
+      } else {
+        updatedApplications[applicationData[2]].splice(applicationData[1], 1);
+        updatedApplications[applicationData[0].status].push(applicationData[0]);
+      }
+
+      return updatedApplications;
+    });
+  }
+
+  updateDragDrop(
+    draggedApplicationData:
+      | [UserApplication, number, Status]
+      | null
+      | undefined,
+    destination: Status
+  ) {
+    this.applications.update((currentApplications) => {
+      let updatedApplications = { ...currentApplications };
+
+      updatedApplications[draggedApplicationData![2]].splice(
+        draggedApplicationData![1],
+        1
+      );
+
+      let draggedApplication = draggedApplicationData![0];
+      draggedApplication.status = destination;
+
+      updatedApplications[destination].push(draggedApplication);
+
+      return updatedApplications;
+    });
   }
 }
 
