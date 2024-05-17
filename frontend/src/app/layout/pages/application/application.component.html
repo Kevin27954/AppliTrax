@@ -1,1 +1,9 @@
-<p>application works!</p>
+<div class="div-application-boards-wrapper">
+
+    <app-appli-board *ngFor="let status of statues; index as i; trackBy: trackByFn" class="board-application"
+        pDroppable (onDrop)="drop(status)" (dragEventEmitter)="onDragEmit($event)" (formEventEmitter)="onFormDataEmit($event)"
+        [status]=status></app-appli-board>
+
+</div>
+
+<button (click)="logApplications()">LOG APPLCAITONS</button>

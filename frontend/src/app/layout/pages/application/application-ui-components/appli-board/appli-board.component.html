@@ -1,0 +1,23 @@
+<p-sidebar [(visible)]="modalState" position="right">
+    <ng-template pTemplate="headless">
+        <app-appli-card-modal [setFormData]="modalApplication()" (closeModalEmitter)="oncloseModalEmit()"
+            (formDataEmitter)="onFormDataEmit($event)"></app-appli-card-modal>
+    </ng-template>
+</p-sidebar>
+
+
+<div class="card-application-board">
+
+    <p id="header">{{header}}</p>
+
+    <input id="input-application-filter" type="text" pInputText placeholder="Filter by Title or Company"
+        [ngModel]="filterBy()" (ngModelChange)="filterApplication($event)" />
+
+    <div class="appli-card-container">
+        <app-appli-card *ngFor="let application of filteredApplications(); trackBy: trackByFn"
+            [jobTitle]="application.jobDetail.title" [company]="application.jobDetail.company"
+            [location]="application.jobDetail.location" [jobType]="application.jobDetail.jobtype" pDraggable
+            (onDragStart)="dragStart(application)" (click)="openModal(application)"></app-appli-card>
+    </div>
+
+</div>

@@ -1,0 +1,35 @@
+.div-sidebar-wrapper {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    overflow: auto;
+}
+
+.div-modal-header,
+.div-modal-body  {
+    padding: 1rem;
+}
+
+.div-modal-body {
+    display: grid;
+}
+
+.div-modal-header {
+    border-bottom: solid 1px black;
+}
+
+.span-modal-title {
+    font-size: 1.225rem;
+    font-weight: bold;
+}
+
+.input-modal-title {
+    font-size: 1.225rem;
+    font-weight: bold;
+}
+
+.span-modal-text {
+    margin: 0.5rem;
+}

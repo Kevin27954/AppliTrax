@@ -1,0 +1,10 @@
+.div-application-boards-wrapper {
+    display: flex;
+    margin: 1rem;
+    overflow-x: auto;
+}
+
+.board-application {
+    height: min-content;
+    margin: .25rem;
+}

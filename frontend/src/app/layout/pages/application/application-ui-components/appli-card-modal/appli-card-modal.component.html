@@ -1,0 +1,45 @@
+<div class="div-sidebar-wrapper">
+    <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+        <div class="div-modal-header">
+            <p-inplace>
+                <ng-template pTemplate="display">
+                    <span class="span-modal-title">{{formGroup.value.title}}</span>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <input class="input-modal-title" [value]="formGroup.value.title" pInputText formControlName="title">
+                </ng-template>
+            </p-inplace>
+        </div>
+    
+        <div class="div-modal-body">
+            <p-calendar formControlName="appliedOn"></p-calendar>
+            <div class="div-modal-field">
+                <label>Company:</label>
+                <p-inplace>
+                    <ng-template pTemplate="display">
+                        <span class="span-modal-text">{{formGroup.value.company}}</span>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                        <input [value]="formGroup.value.company" pInputText formControlName="company">
+                    </ng-template>
+                </p-inplace>
+            </div>
+            <div class="div-modal-field">
+                <label>Location:</label>
+                <p-inplace>
+                    <ng-template pTemplate="display">
+                        <span class="span-modal-text">{{formGroup.value.location}}</span>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                        <input [value]="formGroup.value.location" pInputText formControlName="location">
+                    </ng-template>
+                </p-inplace>
+            </div>
+            <p-dropdown [options]="statusOptions" placeholder="Status" formControlName="status"></p-dropdown>
+            <p-dropdown [options]="jobTypeOptions" placeholder="Job Type" formControlName="jobType"></p-dropdown>
+            <textarea [value]="formGroup.value.notes" pInputTextarea
+                formControlName="notes">{{formGroup.value.notes}}</textarea>
+            <button type="submit">Subimt</button>
+        </div>
+    </form>
+</div>
