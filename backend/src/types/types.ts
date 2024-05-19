@@ -1,6 +1,14 @@
 import { ObjectId } from "mongodb";
 
-export type Status = "applied" | "rejected" | "interview" | "offer" | "archived";
+export type Status =
+    | "applied"
+    | "rejected"
+    | "interview"
+    | "offered"
+    | "archived"
+    | "withdrawn"
+    | "accepted"
+    | "declined";
 
 export interface JobApplicationData {
     job_title: string;

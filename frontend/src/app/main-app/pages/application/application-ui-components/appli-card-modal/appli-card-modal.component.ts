@@ -48,7 +48,7 @@ export class AppliCardModalComponent {
 
     this.formGroup = new FormGroup({
       title: new FormControl(application?.jobDetail.title || ''),
-      appliedOn: new FormControl(application?.appliedOn || ''),
+      appliedOn: new FormControl(new Date(application?.appliedOn || '')),
       company: new FormControl(application?.jobDetail.company || ''),
       location: new FormControl(application?.jobDetail.location || ''),
       jobType: new FormControl(application?.jobDetail.jobtype || ''),

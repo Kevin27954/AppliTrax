@@ -10,4 +10,5 @@ export const environment = {
     appId: '1:93176914489:web:50a8d8c479bb33cf2c63e8',
     measurementId: 'G-BH17PCDJKD',
   },
+  devServer: 'http://127.0.0.1:3000'
 };

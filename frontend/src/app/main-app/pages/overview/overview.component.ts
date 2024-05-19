@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../../api/api.service';
+import { ApplicationService } from '../application/application-service/application.service';
 
 @Component({
   selector: 'app-overview',
@@ -9,5 +11,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './overview.component.css',
 })
 export class OverviewComponent {
-  constructor() {}
+
+  api = inject(ApiService)
+  appliatoin = inject(ApplicationService)
+
+  constructor() {
+    console.log(this.appliatoin.applications());
+  }
 }

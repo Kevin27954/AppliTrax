@@ -1,4 +1,4 @@
-import express, { Request, Response, Express } from "express";
+import express, { Request, Response, Express, NextFunction } from "express";
 import { config } from "dotenv";
 import cors, { CorsOptions } from "cors";
 import bodyParser from "body-parser";
@@ -22,6 +22,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // Verifies idToken and stores it in req.user
 app.use(verifyToken);
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack);
+    res.status(500).send("Something broke!");
+});
 
 app.use("/jobs", jobRouter);
 app.use("/user", userRouter);

@@ -27,7 +27,7 @@ export async function start_mongo() {
         console.log("Current number of connections:", serverStatus.connections);
 
     } catch (error) {
-        console.log("Mongo Error", error);
+        console.log("Mongo Error: \n" + (new Date()).toUTCString(), error);
         mongoClient.close();
     }
 }
