@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { UserApplication } from '../main-app/pages/application/application-utils/application';
 
 const httpOptions = {
@@ -26,8 +26,10 @@ export class ApiService {
   constructor() {}
 
   getApplications() {
+    console.log(environment.server)
+
     return this.httpClient.get<ApplicationsResponse>(
-      `${environment.devServer}/jobs/all`
+      `${environment.server}/jobs/all`
     );
   }
 
@@ -42,7 +44,7 @@ export class ApiService {
     };
 
     return this.httpClient.put(
-      `${environment.devServer}/jobs/edit/${application._id}`,
+      `${environment.server}/jobs/edit/${application._id}`,
       { fields: fields }
     );
   }
