@@ -25,9 +25,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server on the frontend folder. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Run `firebase emulators:start` to start a firebase server for authentication service in development mode. Navigate to `http://localhost:9099` to see all firebase services
+Run `firebase emulators:start` on the frontend folder to start a firebase server for authentication service in development mode. Navigate to `http://localhost:9099` to see all firebase services
+
+Run `npm run dev` on the backend folder for the AppliTrax API server to be on.
 
 ## Code scaffolding
 
