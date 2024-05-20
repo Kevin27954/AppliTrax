@@ -19,7 +19,7 @@ jobRouter.get("/get/:jobId", (req, res) => {
     applicationCollection
         .findOne(query)
         .then((documentResult) => {
-            res.status(200).json(documentResult);
+            res.status(200).json({ application: documentResult });
         })
         .catch((err) => {
             res.status(400).json({ message: err.message });
@@ -30,6 +30,7 @@ jobRouter.get("/all", (req, res) => {
     const query = {
         uid: req.user!.uid,
     };
+
     // Might consider aggregation to group it into multiple sections
     let cursor = applicationCollection.find(query);
 
@@ -70,12 +71,12 @@ jobRouter.put("/new", (req, res) => {
         });
 });
 
-jobRouter.post("/edit/:jobId", (req, res) => {
+jobRouter.put("/edit/:_id", (req, res) => {
     let query = {};
 
     try {
         query = {
-            "jobDetail._id": new ObjectId(req.params.jobId),
+            _id: new ObjectId(req.params._id),
         };
     } catch (err) {
         return res.status(400).json({ message: "Bad Request" });
@@ -83,23 +84,25 @@ jobRouter.post("/edit/:jobId", (req, res) => {
 
     let updatedFields = {};
 
-    if (req.body.fields == undefined) {
-        updatedFields = {
-            $currentDate: { updatedOn: true as any }, //Tell ts to ignore this boolean since Mongo docs allows this
+    try {
+        let data = req.body.fields;
+        let body = {
+            "jobDetail.title": data["jobDetail.title"],
+            "jobDetail.location": data["jobDetail.location"],
+            "jobDetail.jobtype": data["jobDetail.jobtype"],
+            status: data["status"],
+            notes: data["notes"],
+            appliedOn: new Date(data["appliedOn"])
         };
-    } else if (
-        req.body.fields.uid != undefined ||
-        req.body.fields.createdOn != undefined ||
-        req.body.fields.updatedOn != undefined ||
-        req.body.fields._id != undefined ||
-        req.body.fields["jobDetail._id"] != undefined
-    ) {
-        return res.status(400).json({ message: "Bad Request" });
-    } else {
+
+        console.log(body);
+
         updatedFields = {
             $currentDate: { updatedOn: true as any }, //Tell typescript to ignore this boolean since Mongo docs allows this
-            $set: req.body.fields,
+            $set: body,
         };
+    } catch (error: any) {
+        return res.status(400).json({ message: "Bad Request" });
     }
 
     // Add job Details fields to the updated fields too.
@@ -108,6 +111,7 @@ jobRouter.post("/edit/:jobId", (req, res) => {
         .then((mongoResponse) => {
             // Check if request went through
             if (mongoResponse.acknowledged) {
+                console.log(mongoResponse.matchedCount)
                 res.status(200).json({ message: "success" });
             }
         })

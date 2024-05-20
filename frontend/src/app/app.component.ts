@@ -17,10 +17,6 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.routes = [
-      '/',
-      'auth/login',
-      'auth/register',
-    ];
+    this.routes = ['/', 'auth/login', 'auth/register'];
   }
 }

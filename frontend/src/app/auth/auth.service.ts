@@ -28,9 +28,9 @@ export class AuthService implements OnDestroy {
       });
   }
 
-  // refreshToken() {
-  //   return this.auth.currentUser?.getIdToken();
-  // }
+  getToken() {
+    return this.auth.currentUser?.getIdToken() || Promise.resolve('');
+  }
 
   signUpWithEmail(email: string, password: string) {
     console.log('temp auth sign up');

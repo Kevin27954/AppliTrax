@@ -6,19 +6,22 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment.development';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptor/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideAnimations(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(
       provideFirebaseApp(() => initializeApp(environment.firebase))
     ),
     importProvidersFrom(
       provideAuth(() => {
         const auth = getAuth();
-        if(!environment.prod){
+        if (!environment.prod) {
           connectAuthEmulator(auth, 'http://localhost:9099', {
             disableWarnings: true,
           });
