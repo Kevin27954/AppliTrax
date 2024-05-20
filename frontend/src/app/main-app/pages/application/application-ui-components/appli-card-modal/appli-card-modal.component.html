@@ -10,7 +10,7 @@
                 </ng-template>
             </p-inplace>
         </div>
-    
+
         <div class="div-modal-body">
             <p-calendar formControlName="appliedOn"></p-calendar>
             <div class="div-modal-field">
@@ -37,7 +37,7 @@
             </div>
             <p-dropdown [options]="statusOptions" placeholder="Status" formControlName="status"></p-dropdown>
             <p-dropdown [options]="jobTypeOptions" placeholder="Job Type" formControlName="jobType"></p-dropdown>
-            <textarea [value]="formGroup.value.notes" pInputTextarea
+            <textarea [value]="formGroup.value.notes" pInputTextarea rows="10" cols="30" [autoResize]="true"
                 formControlName="notes">{{formGroup.value.notes}}</textarea>
             <button type="submit">Subimt</button>
         </div>
