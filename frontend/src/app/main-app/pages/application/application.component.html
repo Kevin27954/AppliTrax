@@ -1,3 +1,7 @@
+
+
+<app-appli-info-box (newApplicationEmitter)="onNewApplicationEmit($event)"></app-appli-info-box>
+
 <div class="div-application-boards-wrapper">
 
     <app-appli-board *ngFor="let status of statues; index as i; trackBy: trackByFn" class="board-application"

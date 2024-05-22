@@ -39,7 +39,7 @@ jobRouter.get("/all", (req, res) => {
     });
 });
 
-jobRouter.put("/new", (req, res) => {
+jobRouter.post("/new", (req, res) => {
     const jobDetail: JobDetail = {
         _id: new ObjectId(),
         title: req.body.title,

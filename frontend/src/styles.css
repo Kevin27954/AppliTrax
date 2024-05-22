@@ -73,6 +73,10 @@ small {
     background-color: var(--light-green);
 }
 
+.height-min {
+    height: min-content;
+}
+
 .text-link {
     text-decoration: none;
     font-weight: bold;
@@ -153,9 +157,20 @@ small {
 
 #btn-auth-cont>.p-button>.p-button-label,
 #btn-auth-google>.p-button>.p-button-label,
-#btn-auth-github>.p-button>.p-button-label {
+#btn-auth-github>.p-button>.p-button-label,
+.bg-light-green>.p-button-label {
     color: black;
     font-weight: bold;
+}
+
+.bg-light-green>.p-button-icon {
+    color: black;
+}
+
+.bg-light-green {
+    .p-ink {
+        background: rgba(#282e29, 0.3);
+    }
 }
 
 #btn-auth-cont>.p-button {

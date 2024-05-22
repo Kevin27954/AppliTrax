@@ -26,7 +26,7 @@ export class ApiService {
   constructor() {}
 
   getApplications() {
-    console.log(environment.server)
+    console.log(environment.server);
 
     return this.httpClient.get<ApplicationsResponse>(
       `${environment.server}/jobs/all`
@@ -40,12 +40,24 @@ export class ApiService {
       'jobDetail.jobtype': application.jobDetail.jobtype,
       status: application.status,
       notes: application.notes,
-      appliedOn: application.appliedOn
+      appliedOn: application.appliedOn,
     };
 
     return this.httpClient.put(
       `${environment.server}/jobs/edit/${application._id}`,
       { fields: fields }
     );
+  }
+
+  addAppliation(data: any) {
+    let bodyData = {
+      title: data.title,
+      location: data.location,
+      company: data.company,
+      appliedOn: data.appliedOn,
+      jobType: data.jobType,
+    };
+
+    return this.httpClient.post(`${environment.server}/jobs/new`, bodyData);
   }
 }

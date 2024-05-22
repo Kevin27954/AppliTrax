@@ -3,6 +3,7 @@ import {
   UserApplication,
   ApplicationHistory,
   Status,
+  NewApplication,
 } from '../application-utils/application';
 import { ApiService } from '../../../../api/api.service';
 
@@ -12,6 +13,8 @@ import { ApiService } from '../../../../api/api.service';
 })
 export class ApplicationService {
   apiService = inject(ApiService);
+
+  total = signal(0);
 
   constructor() {
     this.getApplications();
@@ -28,10 +31,16 @@ export class ApplicationService {
     declined: [],
   });
 
+  getTotalApplications() {
+    return this.total;
+  }
+
   getApplications() {
     this.apiService.getApplications().subscribe((result) => {
       this.applications.update((applications) => {
         let copy = {...applications}
+
+        this.total.set(result.applications.length);
 
         for (let i = 0; i < result.applications.length; i++) {
           copy[result.applications[i].status].push(result.applications[i])
@@ -41,6 +50,10 @@ export class ApplicationService {
       })
 
     })
+  }
+
+  addApplication(data: NewApplication) {
+    this.apiService.addAppliation(data).subscribe();
   }
 
   updateApplication(applicationData: [UserApplication, number, Status]) {
