@@ -1,6 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { ApplicationService } from './application-service/application.service';
-import { UserApplication, Status, NewApplication } from './application-utils/application';
+import {
+  UserApplication,
+  Status,
+  NewApplication,
+} from './application-utils/application';
 import { CommonModule } from '@angular/common';
 import { AppliCardComponent } from './application-ui-components/appli-card/appli-card.component';
 import { AppliBoardComponent } from './application-ui-components/appli-board/appli-board.component';
@@ -20,7 +24,7 @@ import { ButtonModule } from 'primeng/button';
     AppliInfoBoxComponent,
     DragDropModule,
     CommonModule,
-    ButtonModule
+    ButtonModule,
   ],
 })
 export class ApplicationComponent {
@@ -28,8 +32,10 @@ export class ApplicationComponent {
 
   draggedApplicationData: [UserApplication, number, Status] | undefined | null;
 
-  isDragEnter: boolean = false;
+  isDragEnter = false;
+  hidden = false;
 
+  archiveStatus: Status = 'archived';
   statues: Status[] = [
     'applied',
     'interview',
@@ -38,7 +44,6 @@ export class ApplicationComponent {
     'accepted',
     'declined',
     'withdrawn',
-    'archived',
   ];
 
   logApplications() {
@@ -74,4 +79,7 @@ export class ApplicationComponent {
     this.applicationSerivce.addApplication(data);
   }
 
+  onSwitchDisplayEmit(event: boolean) {
+    this.hidden = event
+  }
 }

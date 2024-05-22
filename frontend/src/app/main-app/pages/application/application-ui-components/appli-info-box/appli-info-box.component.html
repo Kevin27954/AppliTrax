@@ -1,8 +1,8 @@
 <div class="div-appli-info-header">
     <div class="left-section">
         <p>{{total()}} Applications</p>
-        <p-button class="height-min" label="Active" [text]="true"></p-button>
-        <p-button class="height-min" label="Archived" [text]="true"></p-button>
+        <p-button class="height-min" label="Active" (onClick)="emitDisplay(false)" [text]="true"></p-button>
+        <p-button class="height-min" label="Archived" (onClick)="emitDisplay(true)" [text]="true"></p-button>
     </div>
 
     <div class="right-section">

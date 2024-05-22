@@ -1,13 +1,12 @@
-
-
-<app-appli-info-box (newApplicationEmitter)="onNewApplicationEmit($event)"></app-appli-info-box>
+<app-appli-info-box (newApplicationEmitter)="onNewApplicationEmit($event)" (switchDisplay)="onSwitchDisplayEmit($event)"></app-appli-info-box>
 
 <div class="div-application-boards-wrapper">
 
-    <app-appli-board *ngFor="let status of statues; index as i; trackBy: trackByFn" class="board-application"
-        pDroppable (onDrop)="drop(status)" (dragEventEmitter)="onDragEmit($event)" (formEventEmitter)="onFormDataEmit($event)"
+    <app-appli-board *ngFor="let status of statues; index as i; trackBy: trackByFn" class="board-application" [hidden]="hidden" pDroppable
+        (onDrop)="drop(status)" (dragEventEmitter)="onDragEmit($event)" (formEventEmitter)="onFormDataEmit($event)"
         [status]=status></app-appli-board>
 
-</div>
+    <app-appli-board class="board-application" pDroppable (onDrop)="drop(archiveStatus)" [hidden]="!hidden"
+        (dragEventEmitter)="onDragEmit($event)" (formEventEmitter)="onFormDataEmit($event)" [status]="archiveStatus" />
 
-<button (click)="logApplications()">LOG APPLCAITONS</button>
+</div>

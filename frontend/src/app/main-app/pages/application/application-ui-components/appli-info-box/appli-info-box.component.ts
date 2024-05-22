@@ -33,6 +33,7 @@ export class AppliInfoBoxComponent {
   visible: boolean = false;
 
   @Output() newApplicationEmitter = new EventEmitter();
+  @Output() switchDisplay = new EventEmitter();
 
   jobTypeOptions = [
     'Full-time',
@@ -56,5 +57,9 @@ export class AppliInfoBoxComponent {
 
   submitForm() {
     this.newApplicationEmitter.emit(this.formGroup.value);
+  }
+
+  emitDisplay(hide: boolean) {
+    this.switchDisplay.emit(hide);
   }
 }

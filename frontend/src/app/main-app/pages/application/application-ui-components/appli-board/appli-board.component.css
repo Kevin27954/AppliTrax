@@ -5,7 +5,7 @@
 }
 
 .card-application-board {
-    width: 22rem;
+    min-width: 22rem;
     display: block;
     border: 1px solid var(--dark-green);
     border-radius: 12px;
