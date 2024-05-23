@@ -1,40 +1,3 @@
-/* .div-sidebar-wrapper {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    overflow: auto;
-}
-
-.div-modal-header,
-.div-modal-body  {
-    padding: 1rem;
-}
-
-.div-modal-body {
-    display: grid;
-}
-
-.div-modal-header {
-    border-bottom: solid 1px black;
-}
-
-.span-modal-title {
-    font-size: 1.225rem;
-    font-weight: bold;
-}
-
-.input-modal-title {
-    font-size: 1.225rem;
-    font-weight: bold;
-}
-
-.span-modal-text {
-    margin: 0.5rem;
-} */
-
-
 .div-sidebar-wrapper {
     padding: 0;
     display: flex;
@@ -51,7 +14,6 @@
     background-color: #ffffff; /* Ensure the background is white */
     border-radius: 8px; /* Rounded corners for a modern look */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin-bottom: 1rem; /* Space between header and body */
 }
 
 .div-modal-body {
@@ -62,7 +24,6 @@
 
 .div-modal-header {
     border-bottom: solid 1px #cccccc; /* Lighter border color */
-    margin-bottom: 1rem; /* Space below the header */
 }
 
 .span-modal-title,
@@ -73,20 +34,13 @@
 }
 
 .input-modal-title {
-    border: none;
-    border-bottom: 2px solid #cccccc; /* Underline input */
-    padding: 0.5rem 0;
+    padding: 0.25rem 0.5rem;
     width: 100%;
     box-sizing: border-box; /* Ensure padding is included in width */
 }
 
-.input-modal-title:focus {
-    outline: none;
-    border-bottom: 2px solid #007bff; /* Blue underline on focus */
-}
-
 .span-modal-text {
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
     color: #555555; /* Slightly darker text */
 }
 
@@ -123,27 +77,4 @@ textarea {
     resize: none;
 }
 
-textarea:focus {
-    outline: none;
-    border: 1px solid #007bff; /* Blue border on focus */
-}
 
-button[type="submit"] {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-button[type="submit"]:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Blue shadow on focus */
-}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent {
 
   routes: string[] = [];
 
-  constructor() {
+  constructor(primeNgConfig: PrimeNGConfig) {
+    primeNgConfig.ripple = true;
   }
 
   ngOnInit() {

@@ -37,3 +37,11 @@ export interface JobDetail {
   company: string;
   jobtype: string;
 }
+
+export interface NewApplication {
+  title: string;
+  location: string;
+  company: string;
+  appliedOn: Date;
+  jobType: string;
+}

@@ -6,8 +6,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment.development';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './interceptor/auth.interceptor';
+import { PrimeNGConfig } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [

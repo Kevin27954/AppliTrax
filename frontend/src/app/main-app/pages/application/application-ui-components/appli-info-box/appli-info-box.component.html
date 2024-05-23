@@ -1,0 +1,34 @@
+<div class="div-appli-info-header">
+    <div class="left-section">
+        <p>{{total()}} Applications</p>
+        <p-button class="height-min" label="Active" (onClick)="emitDisplay(false)" [text]="true"></p-button>
+        <p-button class="height-min" label="Archived" (onClick)="emitDisplay(true)" [text]="true"></p-button>
+    </div>
+
+    <div class="right-section">
+        <button class="bg-light-green height-min" pRipple label="Add" icon="pi pi-plus" pButton
+            (click)="showDialog()"></button>
+        <button class="bg-light-green height-min" pRipple label="Import" icon="pi pi-upload" pButton></button>
+        <button class="bg-light-green height-min" pRipple label="Export" icon="pi pi-download" pButton></button>
+    </div>
+</div>
+
+<p-dialog header="Add Application" [(visible)]="visible" [modal]="true" [style]="{ width: '40rem', height: '35rem' }">
+    <form class="form-add-application" (ngSubmit)="submitForm()" [formGroup]="formGroup">
+        <div class="form-inputs">
+            <input pInputText type="text" required formControlName="title" id="title" name="title"
+                placeholder="Job Title">
+            <input pInputText type="text" required formControlName="company" id="company" name="company"
+                placeholder="Company">
+            <input pInputText type="text" required formControlName="location" id="location" name="location"
+                placeholder="Location">
+            <div class="div-selectors">
+                <p-calendar formControlName="appliedOn"></p-calendar>
+                <p-dropdown [required]="true" [options]="jobTypeOptions" placeholder="Job Type"
+                    formControlName="jobType"></p-dropdown>
+            </div>
+        </div>
+        <button class="bg-light-green height-min" label="Add" icon="pi pi-plus" pButton
+            [disabled]="formGroup.invalid"></button>
+    </form>
+</p-dialog>
