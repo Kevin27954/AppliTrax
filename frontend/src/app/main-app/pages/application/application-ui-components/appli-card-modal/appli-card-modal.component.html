@@ -39,7 +39,8 @@
             <p-dropdown [options]="jobTypeOptions" placeholder="Job Type" formControlName="jobType"></p-dropdown>
             <textarea [value]="formGroup.value.notes" pInputTextarea rows="10" cols="30" [autoResize]="true"
                 formControlName="notes">{{formGroup.value.notes}}</textarea>
-            <button type="submit">Subimt</button>
+            <button class="bg-light-green height-min" label="Submit" pButton
+                [disabled]="formGroup.invalid"></button>
         </div>
     </form>
 </div>

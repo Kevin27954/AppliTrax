@@ -77,6 +77,7 @@ export class ApplicationComponent {
 
   onNewApplicationEmit(data: NewApplication) {
     this.applicationSerivce.addApplication(data);
+    this.applicationSerivce.getApplications();
   }
 
   onSwitchDisplayEmit(event: boolean) {

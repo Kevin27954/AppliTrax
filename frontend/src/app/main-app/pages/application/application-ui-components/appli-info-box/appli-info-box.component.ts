@@ -47,7 +47,7 @@ export class AppliInfoBoxComponent {
     title: new FormControl(''),
     location: new FormControl(''),
     company: new FormControl(''),
-    appliedOn: new FormControl(''),
+    appliedOn: new FormControl(new Date()),
     jobType: new FormControl(''),
   });
 
@@ -56,6 +56,7 @@ export class AppliInfoBoxComponent {
   }
 
   submitForm() {
+    this.visible = false;
     this.newApplicationEmitter.emit(this.formGroup.value);
   }
 
