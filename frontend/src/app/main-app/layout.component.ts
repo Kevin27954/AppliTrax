@@ -17,7 +17,6 @@ export class LayoutComponent {
   router: Router = inject(Router);
 
   pageChangeHandler: MenuItem = { label: 'Overview' };
-  num = 0;
 
   constructor() {
     effect(() => {
