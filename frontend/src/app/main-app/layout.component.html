@@ -1,9 +1,9 @@
 <div class="layout">
-    <app-sidebar class="sidebar" (signOutBtn)="logOut()"></app-sidebar>
-    <div class="div-layout-wrapper">
-        <app-page-header class="header"></app-page-header>
-        <main>
-            <router-outlet></router-outlet>
-        </main>
-    </div>
+  <app-sidebar class="sidebar" (signOutBtn)="logOut()" (pageChange)="onPageChangeEmit($event)"></app-sidebar>
+  <div class="div-layout-wrapper">
+    <app-page-header class="header" [pageCrumb]="pageChangeHandler"></app-page-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>

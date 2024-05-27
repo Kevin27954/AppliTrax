@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
@@ -14,9 +14,14 @@ import { faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
 export class SidebarComponent {
   faArrowTrendUp = faArrowTrendUp;
 
+  @Output() pageChange = new EventEmitter<string>();
   @Output() signOutBtn = new EventEmitter<void>();
 
   signOutBtnEmitter() {
     this.signOutBtn.emit();
+  }
+
+  pageChangeEmitter(page: string) {
+    this.pageChange.emit(page);
   }
 }
