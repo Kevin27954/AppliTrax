@@ -2,6 +2,8 @@ import { ObjectId } from "mongodb";
 import { getCollection } from "../../mongo-util";
 import express from "express";
 import { JobDetail, UserApplication } from "../../types/types";
+import { jobBoardRouter } from "../job-boards/job-board.routes";
+import { pipeline } from "stream";
 
 export const jobRouter = express.Router();
 const applicationCollection = getCollection("application");
@@ -116,5 +118,46 @@ jobRouter.put("/edit/:_id", (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ message: err.message });
+    });
+});
+
+jobRouter.get("/status/week", (req, res) => {
+  const date = new Date();
+  date.setDate(date.getDate() - 7);
+
+  const pipeline = [
+    {
+      $match: {
+        uid: req.user!.uid,
+        appliedOn: date,
+      },
+    },
+    {
+      $addFields: {
+        aggreate_date: {
+          $dateToString: {
+            date: {
+              $toDate: "$appliedOn",
+            },
+            format: "%Y-%m-%d",
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$aggreate_date",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+  ];
+
+  applicationCollection
+    .aggregate(pipeline)
+    .toArray()
+    .then((arr) => {
+      console.log(arr);
     });
 });
