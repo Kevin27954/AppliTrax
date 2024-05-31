@@ -1,0 +1,10 @@
+app-job-board-toolbar {
+  position: relative;
+  left: 1rem;
+  padding: 1rem;
+}
+
+.div-flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
