@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { UserApplication } from '../main-app/pages/application/application-utils/application';
+import { JobUrl } from '../main-app/pages/job-board/job-board-utils/job-board';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -9,13 +10,13 @@ const httpOptions = {
   }),
 };
 
-type ApplicationResponse = {
-  application: UserApplication;
-};
-
 type ApplicationsResponse = {
   applications: UserApplication[];
 };
+
+interface jobBoardHttpRes {
+  jobBoards: JobUrl[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -25,11 +26,12 @@ export class ApiService {
 
   constructor() {}
 
+  // APPLICATION API ENDPOINTS
   getApplications() {
     console.log(environment.server);
 
     return this.httpClient.get<ApplicationsResponse>(
-      `${environment.server}/jobs/all`
+      `${environment.server}/jobs/all`,
     );
   }
 
@@ -45,7 +47,7 @@ export class ApiService {
 
     return this.httpClient.put(
       `${environment.server}/jobs/edit/${application._id}`,
-      { fields: fields }
+      { fields: fields },
     );
   }
 
@@ -59,5 +61,49 @@ export class ApiService {
     };
 
     return this.httpClient.post(`${environment.server}/jobs/new`, bodyData);
+  }
+
+  // JOB BOARD API ENDPOINTS
+
+  getJobBoards() {
+    return this.httpClient.get<jobBoardHttpRes>(
+      `${environment.server}/jobboard/get`,
+    );
+  }
+
+  addNewJobBoards(url: string) {
+    let body = {
+      jobboard: {
+        url: url,
+      },
+    };
+
+    return this.httpClient.post(`${environment.server}/jobboard/new`, body);
+  }
+
+  editJobBoard(_id: string, new_url: string) {
+    let body = {
+      jobboard: {
+        _id: _id,
+        url: new_url,
+      },
+    };
+
+    return this.httpClient.put(`${environment.server}/jobboard/update`, body);
+  }
+
+  removeJobBoard(_id: string) {
+    let body = {
+      jobboard: {
+        _id: _id,
+      },
+    };
+
+    let deleteHttpOptions = { ...httpOptions, body: body };
+
+    return this.httpClient.delete(
+      `${environment.server}/jobboard/remove`,
+      deleteHttpOptions,
+    );
   }
 }

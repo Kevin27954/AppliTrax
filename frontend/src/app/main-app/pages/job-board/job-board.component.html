@@ -1,1 +1,32 @@
-<p>job-board works!</p>
+<app-job-board-toolbar (addNewUrlEmitter)="onNewUrlEmit($event);"></app-job-board-toolbar>
+<p-dialog header="Modify Url" [modal]="true" [(visible)]="visible">
+  <input [(ngModel)]="editedUrl" pInputText [value]="editedUrl">
+  <div class="div-flex-space-between">
+    <button pButton class="bg-light-green height-min" label="Edit" (click)="editJobBoard()"></button>
+    <button pButton class="bg-light-green height-min" label="Remove" (click)="removeJobBoard()"></button>
+  </div>
+</p-dialog>
+<p-table [value]="getJobBoardUrls()" styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>
+      </th>
+      <th>
+        Job Board Urls
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-url let-rowIndex="rowIndex">
+    <tr>
+      <td style="width: 4rem">
+        <button class="bg-light-green height-min" pRipple icon="pi pi-pencil" pButton
+          (click)="setIndex(rowIndex); showDialog()"></button>
+      </td>
+      <td>
+        <a [href]="url.url" target="_blank">
+          {{url.url }}
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
