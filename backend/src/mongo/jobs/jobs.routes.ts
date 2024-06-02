@@ -96,8 +96,6 @@ jobRouter.put("/edit/:_id", (req, res) => {
       appliedOn: new Date(data["appliedOn"]),
     };
 
-    console.log(body);
-
     updatedFields = {
       $currentDate: { updatedOn: true as any }, //Tell typescript to ignore this boolean since Mongo docs allows this
       $set: body,
@@ -129,7 +127,7 @@ jobRouter.get("/status/week", (req, res) => {
     {
       $match: {
         uid: req.user!.uid,
-        appliedOn: date,
+        appliedOn: { $gt: date },
       },
     },
     {
@@ -152,12 +150,38 @@ jobRouter.get("/status/week", (req, res) => {
         },
       },
     },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
   ];
 
   applicationCollection
     .aggregate(pipeline)
     .toArray()
     .then((arr) => {
-      console.log(arr);
+      let applicationCount: { label: string[]; count: number[] } = {
+        label: [],
+        count: [],
+      };
+      let tempIdx = 0;
+      const prevWeek = new Date();
+      prevWeek.setDate(prevWeek.getDate() - 7);
+
+      for (let i = 1; i <= 7; i++) {
+        prevWeek.setDate(prevWeek.getDate() + 1);
+        const dateStr = prevWeek.toISOString().slice(0, 10);
+        if (tempIdx < arr.length && arr[tempIdx]._id == dateStr) {
+          applicationCount.label.push(arr[tempIdx]._id);
+          applicationCount.count.push(arr[tempIdx].count);
+          tempIdx++;
+        } else {
+          applicationCount.label.push(dateStr);
+          applicationCount.count.push(0);
+        }
+      }
+
+      res.status(200).json({ data: applicationCount });
     });
 });

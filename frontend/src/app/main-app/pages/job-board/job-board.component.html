@@ -1,6 +1,6 @@
 <app-job-board-toolbar (addNewUrlEmitter)="onNewUrlEmit($event);"></app-job-board-toolbar>
-<p-dialog header="Modify Url" [modal]="true" [(visible)]="visible">
-  <input [(ngModel)]="editedUrl" pInputText [value]="editedUrl">
+<p-dialog header="Modify Url" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <input [(ngModel)]="editedUrl" pInputText [value]="editedUrl" style="width: 100%;">
   <div class="div-flex-space-between">
     <button pButton class="bg-light-green height-min" label="Edit" (click)="editJobBoard()"></button>
     <button pButton class="bg-light-green height-min" label="Remove" (click)="removeJobBoard()"></button>

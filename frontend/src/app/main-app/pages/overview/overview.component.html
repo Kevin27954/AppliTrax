@@ -1,1 +1,12 @@
-<p>overview works!</p>
+<div class="grid-container">
+  <div class="item1">
+    <p>Application Status</p>
+    <p-chart type="pie" [data]="pieChartData" [options]="pieOptions" height="17.25rem" />
+  </div>
+  <div class="item2">
+  </div>
+  <div class="item3">
+    <p>Weekly Positions Applied</p>
+    <p-chart type="line" [data]="lineChartData" [options]="lineOptions" height="17.25rem" />
+  </div>
+</div>
