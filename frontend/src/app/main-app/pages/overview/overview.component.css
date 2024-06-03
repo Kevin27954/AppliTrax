@@ -12,6 +12,16 @@
   grid-column: span 2;
 }
 
+.item2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.title {
+  grid-column: span 2;
+  font-weight: bold;
+}
+
 .item1,
 .item2,
 .item3 {
@@ -21,4 +31,6 @@
   background-color: white;
   margin: 1rem;
   padding: 1rem;
+  text-align: center;
+  font-weight: bold;
 }

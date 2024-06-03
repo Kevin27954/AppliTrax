@@ -1,15 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../api/api.service';
 import { ChartModule } from 'primeng/chart';
 import { lineOptions, pieOptions } from './overview-utils/utils';
 import { ApplicationService } from '../application/application-service/application.service';
-import { Status } from '../application/application-utils/application';
+import { UserApplication } from '../application/application-utils/application';
+import { AppliCardComponent } from '../application/application-ui-components/appli-card/appli-card.component';
+import { AppliCardModalComponent } from '../application/application-ui-components/appli-card-modal/appli-card-modal.component';
+import { SidebarModule } from 'primeng/sidebar';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, ChartModule],
+  imports: [
+    CommonModule,
+    ChartModule,
+    AppliCardComponent,
+    AppliCardModalComponent,
+    SidebarModule,
+  ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css',
 })
@@ -23,9 +32,14 @@ export class OverviewComponent {
 
   lineChartData: any;
   pieChartData: any;
-
   lineOptions = lineOptions;
   pieOptions = pieOptions;
+
+  oldestApplications: any;
+
+  modalState = false;
+  modalApplication: WritableSignal<UserApplication | null> = signal(null);
+  applicationIndex: number = 0;
 
   constructor() {
     this.api.getApplicationStatsWeek().subscribe((value: any) => {
@@ -46,15 +60,7 @@ export class OverviewComponent {
     this.api.getApplications().subscribe((value: any) => {
       let data = this.getNumPerCategory(value.applications);
       this.pieChartData = {
-        labels: [
-          'Applied',
-          'Rejected',
-          'Interview',
-          'Offered',
-          //'withdrawn',
-          //'accepted',
-          //'declined',
-        ],
+        labels: ['Applied', 'Rejected', 'Interview', 'Offered'],
         datasets: [
           {
             data: data,
@@ -62,22 +68,34 @@ export class OverviewComponent {
         ],
       };
     });
+
+    this.api.getOldestApplications().subscribe((value: any) => {
+      this.oldestApplications = value.applications;
+      console.log(value.applications);
+    });
   }
 
-  logStuff() {
-    console.log(this.applicationService.applications());
+  trackByFn(index: number, application: UserApplication) {
+    return application._id;
+  }
+
+  openModal(application: UserApplication, index: number) {
+    this.modalState = true;
+    this.modalApplication.set(application);
+    this.applicationIndex = index;
+  }
+
+  oncloseModalEmit() {
+    this.modalState = false;
+  }
+
+  onFormDataEmit(modifiedApplication: UserApplication) {
+    this.api.editApplication(modifiedApplication).subscribe();
+
+    this.oldestApplications[this.applicationIndex] = modifiedApplication;
   }
 
   getNumPerCategory(array: any) {
-    let keys = [
-      'applied',
-      'rejected',
-      'interview',
-      'offered',
-      //'withdrawn',
-      //'accepted',
-      //'declined',
-    ];
     let data = [0, 0, 0, 0];
 
     for (let i = 0; i < array.length; i++) {

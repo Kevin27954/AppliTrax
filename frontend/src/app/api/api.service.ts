@@ -110,4 +110,8 @@ export class ApiService {
   getApplicationStatsWeek() {
     return this.httpClient.get(`${environment.server}/jobs/status/week`);
   }
+
+  getOldestApplications() {
+    return this.httpClient.get(`${environment.server}/jobs/oldest/4`);
+  }
 }

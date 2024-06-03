@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { FindOptions, ObjectId } from "mongodb";
 import { getCollection } from "../../mongo-util";
 import express from "express";
 import { JobDetail, UserApplication } from "../../types/types";
@@ -25,6 +25,37 @@ jobRouter.get("/get/:jobId", (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ message: err.message });
+    });
+});
+
+jobRouter.get("/oldest/:amount", (req, res) => {
+  let query = {
+    uid: req.user!.uid,
+    status: "applied",
+  };
+
+  if (req.params.amount.length > 1) {
+    throw {
+      statusCode: 400,
+      message: "Can't get more than 9 at once.",
+    };
+  }
+
+  const total = Number(req.params.amount) || 4;
+  const options: FindOptions = {
+    sort: { appliedOn: -1 },
+    limit: total,
+  };
+
+  const cursor = applicationCollection.find(query, options);
+  cursor
+    .toArray()
+    .then((arr) => {
+      res.status(200).json({ message: "success", applications: arr });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ message: "Bad response" });
     });
 });
 
@@ -55,7 +86,7 @@ jobRouter.post("/new", (req, res) => {
     jobDetail: jobDetail,
     status: "applied",
     notes: "",
-    appliedOn: req.body.appliedOn || new Date(),
+    appliedOn: new Date(req.body.appliedOn) || new Date(),
     createdOn: new Date(),
     updatedOn: new Date(),
   };
@@ -64,7 +95,9 @@ jobRouter.post("/new", (req, res) => {
     .insertOne(userApplication)
     .then((mongoRespond) => {
       if (mongoRespond.acknowledged) {
-        res.status(200).json({ message: "success" });
+        res
+          .status(200)
+          .json({ message: "success", application: userApplication });
       }
     })
     .catch((err) => {

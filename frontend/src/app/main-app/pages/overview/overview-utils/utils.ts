@@ -28,6 +28,7 @@ export const pieOptions = {
         usePointStyle: true,
         //color: textColor,
       },
+      position: 'right',
     },
   },
 };

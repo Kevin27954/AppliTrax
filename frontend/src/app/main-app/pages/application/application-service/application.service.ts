@@ -62,7 +62,18 @@ export class ApplicationService {
   }
 
   addApplication(data: NewApplication) {
-    this.apiService.addAppliation(data).subscribe();
+    this.apiService.addAppliation(data).subscribe((res: any) => {
+      this.applications.update((currentApplications) => {
+        let updatedApplications = { ...currentApplications };
+        updatedApplications.applied.push(res.application as UserApplication);
+
+        this.total.update((curr) => {
+          return curr + 1;
+        });
+
+        return updatedApplications;
+      });
+    });
   }
 
   updateApplication(applicationData: [UserApplication, number, Status]) {
