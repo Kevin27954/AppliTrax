@@ -14,7 +14,7 @@ const app: Express = express();
 const PORT: number = 3000;
 
 let corsConfig: CorsOptions = {
-  origin: ["http://localhost:4200", "*"],
+  origin: ["http://localhost:4200"],
   optionsSuccessStatus: 200,
 };
 
@@ -25,7 +25,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(verifyToken);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
   res.status(500).send("Something broke!");
 });
 

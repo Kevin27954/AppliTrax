@@ -1,1 +1,25 @@
-<p>overview works!</p>
+<p-sidebar [(visible)]="modalState" position="right">
+  <ng-template pTemplate="headless">
+    <app-appli-card-modal [setFormData]="modalApplication()" (closeModalEmitter)="oncloseModalEmit()"
+      (formDataEmitter)="onFormDataEmit($event)"></app-appli-card-modal>
+  </ng-template>
+</p-sidebar>
+
+<div class="grid-container">
+  <div class="item1">
+    <p>Application Status</p>
+    <p-chart type="pie" [data]="pieChartData" [options]="pieOptions" height="19rem" />
+  </div>
+  <div class="item2">
+    <div class="title">Update these Applications?</div>
+
+    <app-appli-card *ngFor="let application of oldestApplications; trackBy: trackByFn; index as i"
+      [jobTitle]="application.jobDetail.title" [company]="application.jobDetail.company"
+      [location]="application.jobDetail.location" [jobType]="application.jobDetail.jobtype"
+      (click)="openModal(application, i)"></app-appli-card>
+  </div>
+  <div class="item3">
+    <p>Weekly Positions Applied</p>
+    <p-chart type="line" [data]="lineChartData" [options]="lineOptions" height="19rem" />
+  </div>
+</div>

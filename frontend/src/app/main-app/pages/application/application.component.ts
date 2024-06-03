@@ -46,6 +46,10 @@ export class ApplicationComponent {
     'withdrawn',
   ];
 
+  constructor() {
+    this.applicationSerivce.getApplications();
+  }
+
   logApplications() {
     console.log(this.applicationSerivce.applications());
   }
@@ -61,7 +65,7 @@ export class ApplicationComponent {
     ) {
       this.applicationSerivce.updateDragDrop(
         this.draggedApplicationData,
-        destination
+        destination,
       );
     }
     this.draggedApplicationData = null;
@@ -77,10 +81,9 @@ export class ApplicationComponent {
 
   onNewApplicationEmit(data: NewApplication) {
     this.applicationSerivce.addApplication(data);
-    this.applicationSerivce.getApplications();
   }
 
   onSwitchDisplayEmit(event: boolean) {
-    this.hidden = event
+    this.hidden = event;
   }
 }

@@ -1,0 +1,36 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.item1,
+.item2 {
+  grid-column: span 1;
+}
+
+.item3 {
+  grid-column: span 2;
+}
+
+.item2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.title {
+  grid-column: span 2;
+  font-weight: bold;
+}
+
+.item1,
+.item2,
+.item3 {
+  border: 1px solid var(--dark-green);
+  border-radius: 12px;
+  box-shadow: 0px 4px 7px var(--green-100);
+  background-color: white;
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+}

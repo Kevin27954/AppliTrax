@@ -28,8 +28,6 @@ export class ApiService {
 
   // APPLICATION API ENDPOINTS
   getApplications() {
-    console.log(environment.server);
-
     return this.httpClient.get<ApplicationsResponse>(
       `${environment.server}/jobs/all`,
     );
@@ -105,5 +103,15 @@ export class ApiService {
       `${environment.server}/jobboard/remove`,
       deleteHttpOptions,
     );
+  }
+
+  //OVERVIEW API ENDPOINTS
+
+  getApplicationStatsWeek() {
+    return this.httpClient.get(`${environment.server}/jobs/status/week`);
+  }
+
+  getOldestApplications() {
+    return this.httpClient.get(`${environment.server}/jobs/oldest/4`);
   }
 }

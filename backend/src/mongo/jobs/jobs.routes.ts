@@ -1,7 +1,9 @@
-import { ObjectId } from "mongodb";
+import { FindOptions, ObjectId } from "mongodb";
 import { getCollection } from "../../mongo-util";
 import express from "express";
 import { JobDetail, UserApplication } from "../../types/types";
+import { jobBoardRouter } from "../job-boards/job-board.routes";
+import { pipeline } from "stream";
 
 export const jobRouter = express.Router();
 const applicationCollection = getCollection("application");
@@ -23,6 +25,37 @@ jobRouter.get("/get/:jobId", (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ message: err.message });
+    });
+});
+
+jobRouter.get("/oldest/:amount", (req, res) => {
+  let query = {
+    uid: req.user!.uid,
+    status: "applied",
+  };
+
+  if (req.params.amount.length > 1) {
+    throw {
+      statusCode: 400,
+      message: "Can't get more than 9 at once.",
+    };
+  }
+
+  const total = Number(req.params.amount) || 4;
+  const options: FindOptions = {
+    sort: { appliedOn: -1 },
+    limit: total,
+  };
+
+  const cursor = applicationCollection.find(query, options);
+  cursor
+    .toArray()
+    .then((arr) => {
+      res.status(200).json({ message: "success", applications: arr });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ message: "Bad response" });
     });
 });
 
@@ -53,7 +86,7 @@ jobRouter.post("/new", (req, res) => {
     jobDetail: jobDetail,
     status: "applied",
     notes: "",
-    appliedOn: req.body.appliedOn || new Date(),
+    appliedOn: new Date(req.body.appliedOn) || new Date(),
     createdOn: new Date(),
     updatedOn: new Date(),
   };
@@ -62,7 +95,9 @@ jobRouter.post("/new", (req, res) => {
     .insertOne(userApplication)
     .then((mongoRespond) => {
       if (mongoRespond.acknowledged) {
-        res.status(200).json({ message: "success" });
+        res
+          .status(200)
+          .json({ message: "success", application: userApplication });
       }
     })
     .catch((err) => {
@@ -94,8 +129,6 @@ jobRouter.put("/edit/:_id", (req, res) => {
       appliedOn: new Date(data["appliedOn"]),
     };
 
-    console.log(body);
-
     updatedFields = {
       $currentDate: { updatedOn: true as any }, //Tell typescript to ignore this boolean since Mongo docs allows this
       $set: body,
@@ -116,5 +149,72 @@ jobRouter.put("/edit/:_id", (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ message: err.message });
+    });
+});
+
+jobRouter.get("/status/week", (req, res) => {
+  const date = new Date();
+  date.setDate(date.getDate() - 7);
+
+  const pipeline = [
+    {
+      $match: {
+        uid: req.user!.uid,
+        appliedOn: { $gt: date },
+      },
+    },
+    {
+      $addFields: {
+        aggreate_date: {
+          $dateToString: {
+            date: {
+              $toDate: "$appliedOn",
+            },
+            format: "%Y-%m-%d",
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$aggreate_date",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+  ];
+
+  applicationCollection
+    .aggregate(pipeline)
+    .toArray()
+    .then((arr) => {
+      let applicationCount: { label: string[]; count: number[] } = {
+        label: [],
+        count: [],
+      };
+      let tempIdx = 0;
+      const prevWeek = new Date();
+      prevWeek.setDate(prevWeek.getDate() - 7);
+
+      for (let i = 1; i <= 7; i++) {
+        prevWeek.setDate(prevWeek.getDate() + 1);
+        const dateStr = prevWeek.toISOString().slice(0, 10);
+        if (tempIdx < arr.length && arr[tempIdx]._id == dateStr) {
+          applicationCount.label.push(arr[tempIdx]._id);
+          applicationCount.count.push(arr[tempIdx].count);
+          tempIdx++;
+        } else {
+          applicationCount.label.push(dateStr);
+          applicationCount.count.push(0);
+        }
+      }
+
+      res.status(200).json({ data: applicationCount });
     });
 });

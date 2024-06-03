@@ -29,7 +29,9 @@ export class JobBoardComponent {
   urlIndex: number = 0;
   editedUrl: string = '';
 
-  constructor() {}
+  constructor() {
+    this.jobBoardService.getJobBoards();
+  }
 
   showDialog() {
     this.visible = true;
