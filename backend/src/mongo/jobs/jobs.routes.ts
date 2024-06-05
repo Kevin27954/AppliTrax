@@ -218,3 +218,32 @@ jobRouter.get("/status/week", (req, res) => {
       res.status(200).json({ data: applicationCount });
     });
 });
+
+jobRouter.get("/trending", (req, res) => {
+  let pipeline = [
+    {
+      $group: {
+        _id: "$jobDetail.company",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        count: -1,
+      },
+    },
+  ];
+
+  applicationCollection
+    .aggregate(pipeline)
+    .toArray()
+    .then((arr) => {
+      res.status(200).json(arr);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ message: "Bad request" });
+    });
+});

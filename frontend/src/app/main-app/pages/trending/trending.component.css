@@ -1,0 +1,15 @@
+.trending-card {
+  padding: 1rem;
+  margin: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  background: white;
+  border: solid 1px var(--dark-green);
+  box-shadow: 0px 4px 7px var(--green-100);
+  border-radius: 12px;
+}
+
+.trending-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}

@@ -18,6 +18,11 @@ interface jobBoardHttpRes {
   jobBoards: JobUrl[];
 }
 
+interface trendingResponse {
+  _id: string;
+  count: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -113,5 +118,13 @@ export class ApiService {
 
   getOldestApplications() {
     return this.httpClient.get(`${environment.server}/jobs/oldest/4`);
+  }
+
+  // TRENDING API ENDPOINTS
+
+  getTrendingCompanies() {
+    return this.httpClient.get<trendingResponse[]>(
+      `${environment.server}/jobs/trending`,
+    );
   }
 }
