@@ -41,12 +41,14 @@ import { AppliCardModalComponent } from '../appli-card-modal/appli-card-modal.co
 export class AppliBoardComponent {
   applicationSerivce: ApplicationService = inject(ApplicationService);
 
-  @Input({ required: true }) status!: Status;
+  @Input({ required: true }) status: Status = 'applied';
 
   @Output() dragEventEmitter = new EventEmitter<
     [UserApplication, number, Status]
   >();
-  @Output() formEventEmitter = new EventEmitter<[UserApplication, number, Status]>();
+  @Output() formEventEmitter = new EventEmitter<
+    [UserApplication, number, Status]
+  >();
 
   timerSubscription: Subscription | undefined;
   header!: string;
@@ -59,15 +61,14 @@ export class AppliBoardComponent {
     let filter = this.filterBy().toLowerCase();
     return this.applicationSerivce
       .applications()
-      [this.status].filter(
-        (application) =>
-          application.jobDetail.company.toLowerCase().includes(filter) ||
-          application.jobDetail.title.toLowerCase().includes(filter)
-      );
+      [
+        this.status as Status
+      ].filter((application) => application.jobDetail.company.toLowerCase().includes(filter) || application.jobDetail.title.toLowerCase().includes(filter));
   });
 
   ngOnInit() {
-    this.header = this.status.charAt(0).toUpperCase() + this.status.slice(1);
+    this.header =
+      this.status.charAt(0).toUpperCase() + this.status.slice(1) || '';
   }
 
   trackByFn(index: number, application: UserApplication) {
@@ -109,7 +110,7 @@ export class AppliBoardComponent {
       [this.status].findIndex((application) => {
         return application._id === modifiedApplication._id;
       });
-    
+
     this.formEventEmitter.emit([modifiedApplication, index, this.status]);
   }
 }

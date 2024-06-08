@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent,
+    component: LoginComponent,
   },
   {
     path: 'dashboard',

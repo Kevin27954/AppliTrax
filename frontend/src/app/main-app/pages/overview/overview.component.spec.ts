@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverviewComponent } from './overview.component';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
@@ -8,10 +10,21 @@ describe('OverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OverviewComponent]
-    })
-    .compileComponents();
-    
+      imports: [OverviewComponent, HttpClientTestingModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            // Mock any properties or methods you need
+            snapshot: { data: {} },
+            paramMap: {},
+            queryParamMap: {},
+            params: {},
+          },
+        },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(OverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
