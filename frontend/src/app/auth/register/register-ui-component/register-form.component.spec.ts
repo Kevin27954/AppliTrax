@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterFormComponent } from './register-form.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
@@ -8,10 +9,21 @@ describe('RegisterFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterFormComponent]
-    })
-    .compileComponents();
-    
+      imports: [RegisterFormComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            // Mock any properties or methods you need
+            snapshot: { data: {} },
+            paramMap: {},
+            queryParamMap: {},
+            params: {},
+          },
+        },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(RegisterFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

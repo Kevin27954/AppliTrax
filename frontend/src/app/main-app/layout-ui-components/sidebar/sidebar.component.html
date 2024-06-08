@@ -2,29 +2,33 @@
 
   <div class="div-sidebar-nav">
     <h1>AppliTrax</h1>
-    <a routerLink="overview" routerLinkActive="active-link" (click)="pageChangeEmitter('Overview')">
+    <a data-test="overview-href" routerLink="overview" routerLinkActive="active-link"
+      (click)="pageChangeEmitter('Overview')">
       <div class="div-sidebar-single-link">
         <i class="pi pi-table"></i><span>Overview</span>
       </div>
     </a>
-    <a routerLink="application" routerLinkActive="active-link" (click)="pageChangeEmitter('Applications')">
+    <a data-test="application-href" routerLink="application" routerLinkActive="active-link"
+      (click)="pageChangeEmitter('Applications')">
       <div class="div-sidebar-single-link">
         <i class="pi pi-map"></i><span>Applications</span>
       </div>
     </a>
-    <a routerLink="jobboards" routerLinkActive="active-link" (click)="pageChangeEmitter('Job Boards')">
+    <a data-test="job-boards-href" routerLink="jobboards" routerLinkActive="active-link"
+      (click)="pageChangeEmitter('Job Boards')">
       <div class="div-sidebar-single-link">
         <i class="pi pi-briefcase"></i><span>Job Boards</span>
       </div>
     </a>
-    <a routerLink="trending" routerLinkActive="active-link" (click)="pageChangeEmitter('Trending')">
+    <a data-test="trending-href" routerLink="trending" routerLinkActive="active-link"
+      (click)="pageChangeEmitter('Trending')">
       <div class="div-sidebar-single-link">
         <fa-icon [icon]="faArrowTrendUp"></fa-icon><span>Trending</span>
       </div>
     </a>
   </div>
 
-  <div class="btn-sidebar-signout" (click)="signOutBtnEmitter()">
+  <div data-test="signout" class="btn-sidebar-signout" (click)="signOutBtnEmitter()">
     <i class="pi pi-sign-out"></i><span>Log Out</span>
   </div>
 </div>

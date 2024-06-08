@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { HomeComponent } from './main-app/pages/home/home.component';
 import { LayoutComponent } from './main-app/layout.component';
 import { OverviewComponent } from './main-app/pages/overview/overview.component';
 import { ApplicationComponent } from './main-app/pages/application/application.component';
@@ -13,7 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent,
+    component: LoginComponent,
   },
   {
     path: 'dashboard',

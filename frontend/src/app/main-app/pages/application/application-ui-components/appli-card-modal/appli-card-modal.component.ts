@@ -31,11 +31,19 @@ import { CalendarModule } from 'primeng/calendar';
   styleUrl: './appli-card-modal.component.css',
 })
 export class AppliCardModalComponent {
-  formGroup!: FormGroup;
+  formGroup: FormGroup = new FormGroup({
+    title: new FormControl(''),
+    appliedOn: new FormControl(''),
+    company: new FormControl(''),
+    location: new FormControl(''),
+    jobType: new FormControl(''),
+    notes: new FormControl(''),
+    status: new FormControl('applied'),
+  });
   applicationData!: UserApplication | null;
 
   @Input({ required: true }) set setFormData(
-    application: UserApplication | null
+    application: UserApplication | null,
   ) {
     this.applicationData = application;
 
