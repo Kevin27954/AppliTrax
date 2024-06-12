@@ -1,5 +1,0 @@
-FROM node:18.18-alpine
-WORKDIR /app
-COPY dist/appli-trax ./
-CMD [ "node", "server/server.mjs" ]
-EXPOSE 4000

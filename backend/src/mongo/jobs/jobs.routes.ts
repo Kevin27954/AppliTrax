@@ -2,6 +2,8 @@ import { FindOptions, ObjectId } from "mongodb";
 import { getCollection } from "../../mongo-util";
 import express from "express";
 import { JobDetail, UserApplication } from "../../types/types";
+import { jobBoardRouter } from "../job-boards/job-board.routes";
+import { pipeline } from "stream";
 
 export const jobRouter = express.Router();
 const applicationCollection = getCollection("application");
@@ -225,15 +227,11 @@ jobRouter.get("/trending", (req, res) => {
         count: {
           $sum: 1,
         },
-        updatedOn: {
-          $max: "$updatedOn",
-        },
       },
     },
     {
       $sort: {
         count: -1,
-        updatedOn: -1,
       },
     },
   ];

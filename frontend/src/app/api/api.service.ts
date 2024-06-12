@@ -127,16 +127,4 @@ export class ApiService {
       `${environment.server}/jobs/trending`,
     );
   }
-
-  // REGISTER API ENDPOINTS
-  registerUser() {
-    return this.httpClient.post(
-      `${environment.server}/user/register`,
-      httpOptions,
-    );
-  }
-
-  loginUser() {
-    return this.httpClient.put(`${environment.server}/user/login`, httpOptions);
-  }
 }
