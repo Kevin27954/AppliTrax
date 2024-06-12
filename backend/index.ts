@@ -7,6 +7,7 @@ import { jobRouter } from "./src/mongo/jobs/jobs.routes";
 import { userRouter } from "./src/mongo/users/users.routes";
 import { jobBoardRouter } from "./src/mongo/job-boards/job-board.routes";
 import { verifyToken } from "./src/auth/auth.util";
+import serverless from "serverless-http";
 
 config();
 
@@ -14,7 +15,12 @@ const app: Express = express();
 const PORT: number = 3000;
 
 let corsConfig: CorsOptions = {
-  origin: ["http://localhost:4200"],
+  origin: [
+    "http://localhost:4200",
+    "http://127.0.0.1:4000",
+    "https://localhost:4200",
+    "https://127.0.0.1:4000",
+  ],
   optionsSuccessStatus: 200,
 };
 
@@ -32,18 +38,25 @@ app.use("/jobs", jobRouter);
 app.use("/user", userRouter);
 app.use("/jobboard", jobBoardRouter);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send(req.user);
+app.get("/health-check", (req: Request, res: Response) => {
+  res.send("Hello from serverless");
 });
-
-// Starts Mongo Connection
-start_mongo();
 
 // Starts Server
-app.listen(PORT, () => {
-  console.log(`The server is live http://localhost:${PORT}`);
-});
+if (process.env.PROD === "false") {
+  app.listen(PORT, () => {
+    console.log(`The server is live http://localhost:${PORT}`);
+  });
+}
 
 // Close Mongo Connection
-process.on("SIGINT", closeConnection);
-process.on("SIGTERM", closeConnection);
+//process.on("SIGINT", closeConnection);
+//process.on("SIGTERM", closeConnection);
+
+const serverlessHandler = serverless(app);
+
+export const handler = async (event: any, context: any) => {
+  const result = await serverlessHandler(event, context);
+  await start_mongo();
+  return result;
+};

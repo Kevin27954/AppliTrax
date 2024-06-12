@@ -1,0 +1,10 @@
+services:
+  at-frontend:
+    image: kevin093/appli-trax-frontend:1.0
+    ports:
+      - 127.0.0.1:4000:4000
+  
+  at-backend:
+    image: kevin093/appli-trax-backend:1.0
+    ports:
+      - 127.0.0.1:3000:3000

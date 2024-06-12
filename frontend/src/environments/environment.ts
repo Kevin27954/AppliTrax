@@ -10,5 +10,5 @@ export const environment = {
     appId: '1:93176914489:web:50a8d8c479bb33cf2c63e8',
     measurementId: 'G-BH17PCDJKD',
   },
-  server: ""
+  server: 'https://rt2j06pdy5.execute-api.us-east-1.amazonaws.com/prod',
 };
