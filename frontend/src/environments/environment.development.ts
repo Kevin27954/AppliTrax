@@ -1,6 +1,6 @@
 export const environment = {
-  dev: false,
-  prod: true,
+  dev: true,
+  prod: false,
   firebase: {
     apiKey: 'AIzaSyBAWX4Re209xFqnIhyWhSZ5hML-YC33_g0',
     authDomain: 'applitrax.firebaseapp.com',

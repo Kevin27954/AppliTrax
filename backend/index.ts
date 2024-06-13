@@ -14,15 +14,20 @@ config();
 const app: Express = express();
 const PORT: number = 3000;
 
-let corsConfig: CorsOptions = {
-  origin: [
+let origins: string[] = [];
+if (process.env.PROD == "true") {
+  origins = [
     "http://localhost:4200",
     "http://127.0.0.1:4000",
     "https://localhost:4200",
     "https://127.0.0.1:4000",
-    "https://applitrax.web.app",
-    "https://applitrax.firebaseapp.com",
-  ],
+  ];
+} else {
+  origins = origins;
+}
+
+let corsConfig: CorsOptions = {
+  origin: [],
   optionsSuccessStatus: 200,
 };
 
