@@ -1,4 +1,4 @@
-# AppliTrax
+# [AppliTrax](applitrax.web.app)
 
 
 ## Project Purpose:
@@ -10,7 +10,6 @@ Job Hunters constantly apply to many job applications while also maintaining the
  - View the current Trending Applications
  - See Statistics of Your Current Job Hunting Period
  - Store Important Job Boards Links
- - News Articles / Links to Trust Worthy Daily News
 
 Once you logged in to the application with your account, you will be greeted by the overview page. It contains a quick summary of your application progress along with reminders to change old applications that you might have forgotten.
 ![Overview Page](https://github.com/Kevin27954/AppliTrax/blob/main/showcase/Screenshot%202024-06-13%20at%205.23.02%E2%80%AFPM.png)
