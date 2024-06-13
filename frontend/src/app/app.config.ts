@@ -5,8 +5,12 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-import { environment } from '../environments/environment.development';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { environment } from '../environments/environment';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { authInterceptor } from './interceptor/auth.interceptor';
 import { PrimeNGConfig } from 'primeng/api';
 
@@ -16,8 +20,9 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimations(),
     provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch()),
     importProvidersFrom(
-      provideFirebaseApp(() => initializeApp(environment.firebase))
+      provideFirebaseApp(() => initializeApp(environment.firebase)),
     ),
     importProvidersFrom(
       provideAuth(() => {
@@ -28,7 +33,7 @@ export const appConfig: ApplicationConfig = {
           });
         }
         return auth;
-      })
+      }),
     ),
   ],
 };

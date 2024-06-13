@@ -7,13 +7,14 @@ import {
 } from '@angular/fire/auth';
 import { Message } from 'primeng/api';
 import { handleErrorCode } from '../../auth-util/auth-util';
+import { ApiService } from '../../../api/api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
   auth: Auth = inject(Auth);
-
+  api: ApiService = inject(ApiService);
   authError: WritableSignal<Message[]> = signal([]);
 
   handleAuthError(error: any) {
@@ -23,7 +24,10 @@ export class RegisterService {
 
   signUpWithEmail(email: string, password: string) {
     createUserWithEmailAndPassword(this.auth, email, password)
-      .then(() => this.authError.set([]))
+      .then(() => {
+        this.api.registerUser().subscribe();
+        this.authError.set([]);
+      })
       .catch((error) => {
         return this.handleAuthError(error);
       });
@@ -36,6 +40,7 @@ export class RegisterService {
 
     signInWithPopup(this.auth, provider)
       .then(() => {
+        this.api.registerUser().subscribe();
         this.authError.set([]);
       })
       .catch((error) => {
