@@ -10,12 +10,22 @@ Job Hunters constantly apply to many job applications while also maintaining the
  - View the current Trending Applications
  - See Statistics of Your Current Job Hunting Period
  - Store Important Job Boards Links
-
-## Future Potential Features
- - View Company Information Through User Provided Information
- - Set Notifications Through Email of Upcoming Deadlines?
- - Rating of Companies
  - News Articles / Links to Trust Worthy Daily News
+
+Once you logged in to the application with your account, you will be greeted by the overview page. It contains a quick summary of your application progress along with reminders to change old applications that you might have forgotten.
+
+
+On the application page, you will be greeted with a kanban board that you will use to see all your applications along with a tool bar to add new application to the system.
+
+
+Clicking on one of the applications will allow you to modify the contents of the application.
+
+
+In the job boards page, you can use it to store links that direct you to job boards that you frequently use or save searches that you like and want to go back to next time.
+
+
+Lastly on the trending page, you will see the top companies that other users of this web application also apply too, giving information to help you decide on your next applications.
+
 
 
 # Project Development Info

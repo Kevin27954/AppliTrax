@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AppliTrax": {
+    "applitrax": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -22,10 +22,7 @@
             "styles": ["src/styles.css"],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "prerender": true
           },
           "configurations": {
             "production": {
@@ -61,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "AppliTrax:build:production"
+              "buildTarget": "applitrax:build:production"
             },
             "development": {
-              "buildTarget": "AppliTrax:build:development"
+              "buildTarget": "applitrax:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "AppliTrax:build"
+            "buildTarget": "applitrax:build"
           }
         },
         "test": {
@@ -84,6 +81,23 @@
             "styles": ["src/styles.css"],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "applitrax:build:production",
+              "serveTarget": "applitrax:serve:production"
+            },
+            "development": {
+              "buildTarget": "applitrax:build:development",
+              "serveTarget": "applitrax:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

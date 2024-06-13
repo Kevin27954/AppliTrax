@@ -1,6 +1,6 @@
 export const environment = {
-  dev: true,
-  prod: false,
+  dev: false,
+  prod: true,
   firebase: {
     apiKey: 'AIzaSyBAWX4Re209xFqnIhyWhSZ5hML-YC33_g0',
     authDomain: 'applitrax.firebaseapp.com',
@@ -10,5 +10,5 @@ export const environment = {
     appId: '1:93176914489:web:50a8d8c479bb33cf2c63e8',
     measurementId: 'G-BH17PCDJKD',
   },
-  server: 'http://127.0.0.1:3000'
+  server: 'http://127.0.0.1:3000',
 };

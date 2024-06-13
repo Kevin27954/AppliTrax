@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "applitrax"
+  },
+  "targets": {
+    "applitrax": {
+      "hosting": {
+        "applitrax": [
+          "applitrax"
+        ]
+      }
+    }
   }
 }
