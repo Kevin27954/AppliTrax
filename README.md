@@ -1,4 +1,4 @@
-# [AppliTrax](https://applitrax.web.app) <-- Link to website
+# [AppliTrax](https://applitrax.web.app) <-- (Doesn't work as of right now)
 
 
 ## Project Purpose:
