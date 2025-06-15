@@ -1,5 +1,6 @@
 # [AppliTrax](https://applitrax.web.app) <-- (Doesn't work as of right now)
 
+> As of right now, all the links are taken down (undeployed from cloud) since it was costing me money to host 😢. But if you want to run this project, just clone the repo and run the back and frontend and it will work. :)
 
 ## Project Purpose:
 
